@@ -1,7 +1,3 @@
-# CampusPlus
-Campus+ App skal modernisere uddannelsesmessen ved at samle tilmelding, materialer og evaluering ét sted.
-
-
 # Campus+ App - Kategori A (Lærere og Studerende)
 
 ## Om Opgaven

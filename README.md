@@ -16,3 +16,33 @@ Studerende får adgang til deres aktivitetspas, undervisningsmaterialer og mulig
 - En **kodet central brugerrejse** for lærere, som inkluderer login og klasseregistrering.
 
 Denne løsning lægger fundamentet for en fuldt funktionel app, der kan implementeres til CAMPUS+ i 2025.
+
+# **Campus+ React Mappestruktur**
+
+```plaintext
+campusplus/
+├── public/
+│   ├── index.html         # HTML-indgangspunktet
+│   └── favicon.ico        # Appens ikon
+├── src/
+│   ├── components/        # Genanvendelige komponenter
+│   │   ├── Header.js      # Header-komponent
+│   │   ├── Login.js       # Login-komponent
+│   │   └── Footer.js      # Footer-komponent
+│   ├── pages/             # Sidekomponenter
+│   │   ├── Teacher.js     # Dashboard for lærere
+│   │   ├── Student.js     # Dashboard for studerende
+│   │   └── NotFound.js    # 404-fejlside
+│   ├── context/           # Context API til deling af global state
+│   │   └── ThemeContext.js # Dark/Light Mode context
+│   ├── styles/            # CSS/SCSS-filer
+│   │   ├── App.css        # Global styling
+│   │   ├── variables.scss # SCSS-variabler (hvis nødvendigt)
+│   ├── utils/             # Hjælpefunktioner
+│   │   └── api.js         # Funktioner til API-kald
+│   ├── App.js             # Hovedkomponent
+│   ├── index.js           # Hovedindgangspunkt
+│   └── reportWebVitals.js # (Valgfri) Ydelsesmåling
+├── package.json           # Projektkonfiguration og afhængigheder
+├── .gitignore             # Git-ignorede filer
+├── README.md              # Dokumentation af projektet

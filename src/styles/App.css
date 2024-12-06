@@ -1,0 +1,104 @@
+/* Reset and Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+/* Main App Styles */
+.App {
+  text-align: center;
+  min-height: 100vh; /* Ensure full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* App Logo */
+.App-logo {
+  height: 80px; /* Smaller logo */
+  pointer-events: none;
+  margin-bottom: 20px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 5s linear; /* Subtle animation */
+  }
+}
+
+/* Header Styles */
+.App-header {
+  width: 100%; /* Full width */
+  padding: 40px 20px; /* Consistent padding */
+  font-size: 1.5rem; /* Scalable text size */
+  background-color: inherit; /* Inherit theme background */
+  color: inherit; /* Inherit theme text color */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Links */
+.App-link {
+  color: #61dafb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.App-link:hover {
+  color: #21a1f1; /* Subtle hover effect */
+  text-decoration: underline;
+}
+
+/* Light Theme */
+body[data-theme="light"] .App {
+  background-color: #ffffff; /* Light background */
+  color: #000000; /* Dark text */
+}
+
+body[data-theme="light"] .App-header {
+  background-color: #f4f4f4; /* Light header background */
+  color: #212529; /* Darker text */
+}
+
+/* Dark Theme */
+body[data-theme="dark"] .App {
+  background-color: #121212; /* Dark background */
+  color: #ffffff; /* Light text */
+}
+
+body[data-theme="dark"] .App-header {
+  background-color: #343a40; /* Darker header */
+  color: #ffffff; /* White text */
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker hover effect */
+}

@@ -1,0 +1,28 @@
+/* Ensure the navigation is fixed at the bottom */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000000;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensure it stays above other content */
+}
+
+/* Style for navigation items */
+.bottom-nav .nav-item {
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  flex-grow: 1;
+  padding: 5px;
+}
+
+.bottom-nav .nav-item:hover {
+  background-color: #444;
+}

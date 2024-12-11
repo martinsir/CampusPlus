@@ -1,14 +1,27 @@
 {
   "name": "campusplus",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Dette installerer automatisk alle de pakker, der er angivet i dependencies og devDependencies i din package.json.\r -npm install",
+  "main": "index.js",
   "type": "module",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {
-    "vite": "^6.0.1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinsir/campusplus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martinsir/campusplus/issues"
+  },
+  "homepage": "https://github.com/martinsir/campusplus#readme",
+  "dependencies": {
+    "vite": "^6.0.3"
   }
 }

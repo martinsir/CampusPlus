@@ -18,7 +18,7 @@ h1 {
 body {
   margin: 0;
   padding: 0;
-  background-image: url("../assets/images/SchneiderFoto-Campus1.jpg"); /* Path relative to the CSS file */
+  background-image: url("../assets/images/SchneiderFoto-Campus+dagen-2.jpg"); /* Path relative to the CSS file */
   background-color: #49733f;
   background-size: cover; /* Makes the image cover the entire viewport */
   background-repeat: no-repeat; /* Prevents tiling */

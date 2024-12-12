@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   background-color: #000000;
-  color: white;
+  color: #fdc724;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
@@ -17,7 +17,7 @@
 .bottom-nav .nav-item {
   text-align: center;
   text-decoration: none;
-  color: white;
+  color: #fdc724;
   font-size: 14px;
   flex-grow: 1;
   padding: 5px;

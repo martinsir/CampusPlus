@@ -1,28 +1,48 @@
 @font-face {
-  font-family: "CustomFont"; /* Name your font family */
-  src: url("/src/assets/fonts/TheNorthernBlockLtd_Metral-Regular.otf"); /* Locate the .ttf file within your directory*/
+  font-family: "Metral";
+  src: url("/src/assets/fonts/TheNorthernBlockLtd_Metral-Regular.woff2")
+      format("woff2"),
+    url("/src/assets/fonts/Metral-Regular.woff") format("woff"),
+    url("/src/assets/fonts/TheNorthernBlockLtd_Metral-Regular.otf")
+      format("opentype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 #header {
-  font-family: CustomFont;
+  font-family: "Metral", Arial, sans-serif;
 }
 
 h1 {
   color: #fdc724;
   padding: 10px;
-  margin: 500px 0 500px 0;
+  margin: 200px 0 500px 0;
 }
 
+/* Mobile and Tablet */
+h2 {
+  color: #fff; /* White text */
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5),
+    /* Black shadow */ 4px 4px 6px rgba(64, 64, 64, 0.5),
+    /* Dark gray shadow */ 6px 6px 9px rgba(128, 128, 128, 0.5); /* Light gray shadow */
+}
+html {
+  box-shadow: inset 2000px 0 0 0 rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 0, 0, 1);
+}
 body {
   margin: 0;
   padding: 0;
-  background-image: url("../assets/images/SchneiderFoto-Campus+dagen-2.jpg"); /* Path relative to the CSS file */
-  background-color: #49733f;
+  background-image: url("../assets/images/Schneider\ Foto\ -\ Campus\ +\ dagen-2.jpg"); /* Path relative to the CSS file */
+  background-color: #000000;
   background-size: cover; /* Makes the image cover the entire viewport */
   background-repeat: no-repeat; /* Prevents tiling */
   background-position: center;
+
   height: 100vh; /* Ensures the background covers the viewport */
-  font-family: "CustomFont", sans-serif; /* Use the font family */
+  font-family: "Metral", Arial, sans-serif; /* Use the font family */
 }
 .fa-plus {
   font-size: 1em; /* Match text size */
@@ -71,69 +91,127 @@ body {
   border: none;
 }
 
-/* Fullscreen for landscape orientation */
-@media (orientation: landscape) {
-  .corner-logo {
-    display: none; /* Hide the logo */
-  }
-
-  header {
-    display: none; /* Hide the header */
-  }
-
-  .video-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw; /* Full screen width */
-    height: 100vh; /* Full screen height */
-    padding: 0; /* Remove padding in fullscreen */
-    z-index: 999; /* Ensure it’s above other content */
-  }
-
-  .video-container iframe {
-    width: 100%;
-    height: 100%;
-  }
+/* Default video container */
+.video-container {
+  position: relative;
+  width: 100%; /* Full width for all screens */
+  padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease; /* Smooth resizing */
 }
 
 /* content-boxes */
 
-.content-container {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  justify-content: center;
+.content-container > div {
+  flex: 1 1 calc(33.333% - 40px); /* 3 boxes per row with space */
+  box-sizing: border-box; /* Include padding and border in size */
 }
 
-.content-box {
-  flex: 1 1 calc(33.333% - 40px);
+/* Shared styles for all content boxes */
+[class^="content-box"] {
+  flex: 1 1 calc(33.333% - 40px); /* Default layout */
   max-width: 100%;
-  background-color: #49733f;
-  border: 1px solid #49733f;
-  color: #fdc724;
+  background-color: #49733f; /* Shared background */
+  border: 2px solid #000;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-color: #000;
+  box-shadow: 10px 1px 20px rgba(0, 0, 0, 0.5);
   padding: 20px;
   text-align: center;
   box-sizing: border-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.content-box:hover {
+/* Specific styles for content-box1 */
+.content-box1 {
+  height: 200px;
+  background-color: transparent; /* Override shared background color */
+  background-image: url("../assets/images/seprogram.png");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Specific styles for content-box2 */
+.content-box2 {
+  height: 200px;
+  background-color: transparent;
+  background-image: url("../assets/images/Marcus\ Eckhoff\ -\ Campus+-30.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.content-box3 {
+  height: 200px;
+  background-image: url("../assets/images/Schneider\ Foto\ -\ Campus\ +\ dagen-24.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Repeat for other boxes */
+.content-box4 {
+  height: 200px;
+  background-image: url("../assets/images/05092023-campus+dagen-119.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.content-box5 {
+  height: 200px;
+  background-image: url("../assets/images/Marcus\ Eckhoff\ -\ Campus+-49.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Hover effect */
+[class^="content-box"]:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Default: 3 items per row */
+.content-container > div {
+  flex: 1 1 calc(33.333% - 20px);
+}
+
+/* Medium screens: 2 items per row */
 @media (max-width: 768px) {
-  .content-box {
+  .content-container > div {
     flex: 1 1 calc(50% - 20px);
   }
 }
 
+/* Small screens: 1 item per row */
 @media (max-width: 480px) {
-  .content-box {
+  .content-container > div {
     flex: 1 1 100%;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  h2 {
+    font-size: 2.5rem;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5),
+      /* Black shadow */ 5px 5px 10px rgba(64, 64, 64, 0.5),
+      /* Dark gray shadow */ 7px 7px 15px rgba(128, 128, 128, 0.5); /* Light gray shadow */
+  }
+}
+
+/* Fullscreen for landscape orientation on small devices only */
+@media (max-width: 768px) and (orientation: landscape) {
+  .video-container {
+    position: fixed; /* Make it fullscreen */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    padding: 0; /* Remove padding */
+    z-index: 999; /* Ensure it's above other content */
+  }
+
+  .video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
   }
 }

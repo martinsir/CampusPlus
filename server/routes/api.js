@@ -1,14 +1,25 @@
 import express from 'express';
+import connectToDatabase from '../db.js'; // Import the database connection function
+
 const router = express.Router();
 
-// Test route
-router.get('/test', (req, res) => {
-    res.json({ message: 'Server is up and running!' });
+router.get('/test-db', async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        const [result] = await db.query('SELECT DATABASE() AS dbName;');
+        console.log('Connected to database:', result[0].dbName);
+        res.json({
+            message: 'Database connection successful!',
+            database: result[0].dbName,
+        });
+        db.end(); // Close the connection after testing
+    } catch (error) {
+        console.error('Database test failed:', error.message);
+        res.status(500).json({
+            error: 'Database connection failed',
+            details: error.message,
+        });
+    }
 });
 
-// Data route
-router.get('/data', (req, res) => {
-    res.json({ message: 'Here’s more data from the backend!' });
-});
-
-export default router; // Export the router
+export default router;

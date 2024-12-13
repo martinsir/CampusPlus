@@ -1,10 +1,7 @@
 @font-face {
   font-family: "Metral";
-  src: url("/src/assets/fonts/TheNorthernBlockLtd_Metral-Regular.woff2")
-      format("woff2"),
-    url("/src/assets/fonts/Metral-Regular.woff") format("woff"),
-    url("/src/assets/fonts/TheNorthernBlockLtd_Metral-Regular.otf")
-      format("opentype");
+  src: url("../assets/fonts/TheNorthernBlockLtd_Metral-Regular.woff2")
+    format("woff2");
   font-weight: normal;
   font-style: normal;
 }
@@ -120,6 +117,9 @@ body {
   text-align: center;
   box-sizing: border-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex; /* Use Flexbox */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
 }
 
 /* Specific styles for content-box1 */
@@ -129,6 +129,9 @@ body {
   background-image: url("../assets/images/seprogram.png");
   background-size: cover;
   background-position: center;
+  display: flex; /* Ensure Flexbox applies specifically */
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
 }
 
 /* Specific styles for content-box2 */
@@ -138,6 +141,9 @@ body {
   background-image: url("../assets/images/Marcus\ Eckhoff\ -\ Campus+-30.jpg");
   background-size: cover;
   background-position: center;
+  display: flex; /* Ensure Flexbox applies specifically */
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
 }
 
 .content-box3 {
@@ -145,6 +151,9 @@ body {
   background-image: url("../assets/images/Schneider\ Foto\ -\ Campus\ +\ dagen-24.jpg");
   background-size: cover;
   background-position: center;
+  display: flex; /* Ensure Flexbox applies specifically */
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
 }
 
 /* Repeat for other boxes */
@@ -153,6 +162,9 @@ body {
   background-image: url("../assets/images/05092023-campus+dagen-119.jpg");
   background-size: cover;
   background-position: center;
+  display: flex; /* Ensure Flexbox applies specifically */
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
 }
 
 .content-box5 {
@@ -160,6 +172,9 @@ body {
   background-image: url("../assets/images/Marcus\ Eckhoff\ -\ Campus+-49.jpg");
   background-size: cover;
   background-position: center;
+  display: flex; /* Ensure Flexbox applies specifically */
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
 }
 
 /* Hover effect */

@@ -1,22 +1,17 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: './server/.env' });
+
 import express from 'express';
-import connectToDatabase from './db.js';
+import apiRoutes from './routes/api.js';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Test database connection
-app.get('/api/test-db', async (req, res) => {
-    try {
-        const db = await connectToDatabase();
-        const [result] = await db.query('SELECT DATABASE() AS dbName;');
-        console.log('Connected to database:', result[0].dbName);
-        res.json({ message: 'Database connection successful!', database: result[0].dbName });
-        db.end(); // Close the connection
-    } catch (error) {
-        console.error('Database test failed:', error.message);
-        res.status(500).json({ error: 'Database connection failed', details: error.message });
-    }
-});
+// Middleware for parsing JSON
+app.use(express.json());
+
+// Use API routes
+app.use('/api', apiRoutes);
 
 // Start the server
 app.listen(PORT, () => {

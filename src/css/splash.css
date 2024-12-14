@@ -1,25 +1,50 @@
-.splash {
+/* Splash Screen */
+.splash-screen {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #ffc107, #ff5722);
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #49733f, #49733f); /* Green gradient */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  justify-content: center; /* Horizontally center content */
+  align-items: center; /* Vertically center content */
+  flex-direction: column; /* Stack logo and text vertically */
   z-index: 1000;
+  overflow: hidden;
   color: #fff;
+  font-family: "../assets/fonts/TheNorthernBlockLtd_Metral-Regular.woff2",
+    "Arial", sans-serif;
 }
 
+/* Content inside the splash screen */
+.splash-content {
+  display: flex;
+  flex-direction: column; /* Stack logo and text vertically */
+  align-items: center; /* Center logo and text horizontally */
+  justify-content: center; /* Center content vertically */
+}
+
+/* Logo */
 .splash-logo {
-  width: 150px;
-  height: auto;
+  position: absolute; /* Allow absolute positioning */
+  top: 40%; /* Adjust this value to control vertical positioning */
+  left: 50%; /* Center horizontally */
+  transform: translateX(
+    -50%
+  ); /* Shift back by 50% of its width for perfect centering */
+  width: 150px; /* Adjust size for mobile-first design */
+  height: auto; /* Maintain aspect ratio */
 }
 
-.splash h1 {
-  font-size: 2rem;
-  margin-top: 20px;
-  opacity: 0;
+/* Optional: Fade-in animation for tagline */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -9,7 +9,14 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/bottom.nav.css" />
+    <link
+      rel="stylesheet"
+      href="css/bottom.nav.css"
+      id="bottom-nav-stylesheet"
+    />
+    <link rel="stylesheet" href="css/splash.css" />
+    <link rel="stylesheet" href="css/login.css" id="login-stylesheet" />
+
     <link
       rel="icon"
       href="./assets/images/logo_page.png"
@@ -23,11 +30,122 @@
     />
   </head>
   <body>
-    <div id="content">
+    <!-- Splash Screen -->
+    <div id="splash" class="splash-screen">
+      <div class="splash-content">
+        <img
+          id="splash-logo"
+          src="./assets/images/logo_page.png"
+          alt="Campus+ Logo"
+          class="splash-logo"
+        />
+      </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="login-container" style="display: none">
+      <form id="login-form">
+        <h2>Log ind</h2>
+
+        <!-- Username -->
+        <input
+          type="text"
+          id="brugernavn"
+          name="brugernavn"
+          placeholder="Brugernavn"
+          required
+        />
+
+        <!-- Password -->
+        <input
+          type="password"
+          id="kodeord"
+          name="kodeord"
+          placeholder="Kodeord"
+          required
+        />
+
+        <!-- Forgot Password -->
+        <div class="forgot-password">
+          <a href="#forgot-password">Glemt kodeord?</a>
+        </div>
+
+        <!-- Login Button -->
+        <button id="login-button" type="submit" disabled>Login</button>
+
+        <!-- Unilogin -->
+        <div class="alternative-login">
+          <button id="unilogin-button" type="button">Login med Unilogin</button>
+        </div>
+
+        <!-- Register Page -->
+        <div
+          id="register-page"
+          class="register-container"
+          style="display: none"
+        >
+          <form id="register-form">
+            <h1>Opret Bruger</h1>
+
+            <!-- Username -->
+            <input
+              type="text"
+              id="register-brugernavn"
+              name="brugernavn"
+              placeholder="Brugernavn"
+              required
+            />
+
+            <!-- Email -->
+            <input
+              type="email"
+              id="register-email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+
+            <!-- Password -->
+            <input
+              type="password"
+              id="register-kodeord"
+              name="kodeord"
+              placeholder="Kodeord"
+              required
+            />
+
+            <!-- Confirm Password -->
+            <input
+              type="password"
+              id="register-bekræft-kodeord"
+              name="bekræft-kodeord"
+              placeholder="Bekræft kodeord"
+              required
+            />
+
+            <!-- Register Button -->
+            <button id="register-button" type="submit">Registrer</button>
+
+            <!-- Back to Login -->
+            <div class="back-to-login">
+              <a href="#" id="back-to-login">Tilbage til Login</a>
+            </div>
+          </form>
+        </div>
+      </form>
+
+      <!-- Guest Entrance -->
+      <div class="guest">
+        <button id="guest-button" type="button">Fortsæt som gæst</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content" style="display: none">
       <h1>Velkommen til Campus<i class="fa-solid fa-plus"></i></h1>
     </div>
 
-    <div class="video-container">
+    <div class="video-container" style="display: none">
       <iframe
         id="intro-video"
         src="https://www.youtube.com/embed/aGnraWDwmXk?autoplay=1&mute=1&playsinline=1"
@@ -35,11 +153,10 @@
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
-      >
-      </iframe>
+      ></iframe>
     </div>
 
-    <div class="content-container">
+    <div class="content-container" style="display: none">
       <div class="content-box1">
         <h2>SE PROGRAM</h2>
       </div>
@@ -58,7 +175,7 @@
     </div>
 
     <!-- Bottom Navigation Menu -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" style="display: none">
       <a href="#home" class="nav-item">
         <img src="assets/images/bot-map.png" alt="Kort" />
       </a>
@@ -70,6 +187,8 @@
       </a>
     </nav>
 
+    <script src="scripts/splash.js" type="module"></script>
+    <script src="scripts/login.js" type="module"></script>
     <script type="module" src="scripts/main.js"></script>
     <script type="module" src="scripts/bottom-nav.js"></script>
   </body>

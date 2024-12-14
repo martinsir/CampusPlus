@@ -1,28 +1,22 @@
-/* Ensure the navigation is fixed at the bottom */
+/* Bottom Navigation */
 .bottom-nav {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
-  background-color: #000000;
-  color: #fdc724;
+  background-color: #000;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10; /* Ensure it stays above other content */
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
-/* Style for navigation items */
-.bottom-nav .nav-item {
-  text-align: center;
-  text-decoration: none;
-  color: #fdc724;
-  font-size: 14px;
-  flex-grow: 1;
-  padding: 5px;
+.nav-item img {
+  width: 50px;
+  height: 30px;
+  transition: transform 0.2s ease;
 }
 
-.bottom-nav .nav-item:hover {
-  background-color: #444;
+.nav-item img:hover {
+  transform: scale(1.1);
 }

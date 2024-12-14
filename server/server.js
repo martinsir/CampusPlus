@@ -1,19 +1,22 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: './server/.env' });
-
 import express from 'express';
-import apiRoutes from './routes/api.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+dotenv.config(); // Load environment variables
+
+// Resolve __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, '../public')));
+// Serve static files from the "src" directory
+app.use(express.static(path.join(__dirname, '../src')));
 
-// Middleware for parsing JSON
-app.use(express.json());
-
-// Use API routes
+// API routes
+import apiRoutes from './routes/api.js';
 app.use('/api', apiRoutes);
 
 // Start the server

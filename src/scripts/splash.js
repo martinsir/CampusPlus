@@ -1,36 +1,21 @@
-import { gsap } from 'gsap';
+import { gsap } from "gsap";
 
-// Animation for the splash screen
-const splashAnimation = () => {
-    const tl = gsap.timeline();
+document.addEventListener("DOMContentLoaded", () => {
+  const splashScreen = document.getElementById("splash");
+  const loginPage = document.getElementById("login-page");
 
-    // Fade in the logo and text
-    tl.from('.splash-logo', {
-        opacity: 0,
-        scale: 0.5,
-        duration: 1,
-        ease: 'power2.out',
-    })
-    .from('.splash h1', {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power2.out',
-    }, '-=0.5') // Overlap with previous animation
+  // GSAP Animation for Splash
+  const timeline = gsap.timeline({
+    onComplete: () => {
+      splashScreen.style.display = "none"; // Hide splash
+      loginPage.style.display = "block"; // Show login page
+    },
+  });
 
-    // Hold the splash screen for a moment
-    .to('.splash', {
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.in',
-        delay: 1,
-        onComplete: () => {
-            // Hide splash screen and show main content
-            document.getElementById('splash').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-        },
-    });
-};
-
-// Run the animation
-splashAnimation();
+  timeline.to("#splash-logo", {
+    rotation: 360,
+    duration: 1.5,
+    scale: 1.2,
+    ease: "power1.inOut",
+  });
+});

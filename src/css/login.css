@@ -1,4 +1,4 @@
-/* Mobile-First: Full-Screen Login Page */
+/* Mobile-First: Full-Screen Login and Register Pages */
 body {
   margin: 0;
   padding: 0;
@@ -13,15 +13,20 @@ body {
   overflow: hidden; /* Prevent scrolling */
 }
 
-/* Login Container */
-.login-container {
+/* Shared Container Styles */
+.login-container,
+.register-container {
   text-align: center;
   width: 90%; /* Full width on small screens */
   max-width: 400px; /* Limit width on larger screens */
-  padding: 20px;
+  padding: 20px 15px; /* Adjusted padding */
   animation: fadeIn 1s ease-in-out;
+  border-radius: 10px; /* Smooth corners */
+  background: rgba(76, 143, 70, 0.8); /* Semi-transparent black */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
+/* Fade-In Animation */
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -33,19 +38,21 @@ body {
   }
 }
 
-/* Header */
-.login-container h1 {
+/* Headers for Login and Register */
+.login-container h2,
+.register-container h2 {
   font-size: 1.5rem; /* Mobile-friendly size */
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reduce spacing */
   color: #fff;
   font-weight: bold;
 }
 
-/* Input Fields */
-.login-container input {
+/* Input Fields (Shared) */
+.login-container input,
+.register-container input {
   width: 100%; /* Full width for mobile */
   padding: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 12px; /* Reduced spacing */
   font-size: 1rem; /* Mobile-friendly size */
   border: none;
   border-radius: 5px; /* Smooth corners */
@@ -56,18 +63,21 @@ body {
   transition: box-shadow 0.3s ease; /* Smooth transition */
 }
 
-.login-container input::placeholder {
+.login-container input::placeholder,
+.register-container input::placeholder {
   color: #888; /* Subtle placeholder color */
 }
 
-.login-container input:focus {
+.login-container input:focus,
+.register-container input:focus {
   outline: none;
   border: 1px solid #49733f;
   box-shadow: 0 0 8px rgba(72, 255, 0, 0.5); /* Glow effect */
 }
 
-/* Login Button */
-.login-container button {
+/* Buttons (Shared) */
+.login-container button,
+.register-container button {
   width: 100%; /* Full width for mobile */
   padding: 14px; /* Increased padding for easy tapping */
   font-size: 1.1rem; /* Slightly larger for touch-friendliness */
@@ -79,12 +89,14 @@ body {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.login-container button:hover {
+.login-container button:hover,
+.register-container button:hover {
   background-color: #49733f;
   transform: translateY(-2px); /* Subtle hover lift */
 }
 
-.login-container button:disabled {
+.login-container button:disabled,
+.register-container button:disabled {
   background-color: #a1a3a0;
   cursor: not-allowed;
 }
@@ -105,9 +117,9 @@ body {
   text-decoration: underline;
 }
 
-/* Register Section */
+/* Register Link */
 .register {
-  margin-top: 20px;
+  margin-top: 15px; /* Adjust spacing */
   font-size: 0.9rem;
   color: #fff;
 }
@@ -118,6 +130,20 @@ body {
 }
 
 .register a:hover {
+  text-decoration: underline;
+}
+
+/* Back to Login Link */
+.back-to-login {
+  margin-top: 10px; /* Adjust spacing */
+}
+
+.back-to-login a {
+  color: #ffc107; /* Highlighted text */
+  text-decoration: none;
+}
+
+.back-to-login a:hover {
   text-decoration: underline;
 }
 
@@ -142,7 +168,7 @@ body {
 
 /* Guest Button */
 .guest {
-  margin-top: 20px;
+  margin-top: 15px; /* Adjust spacing */
   text-align: center; /* Center the button */
 }
 
@@ -162,16 +188,20 @@ body {
   background-color: #49733f; /* Darker green on hover */
 }
 
+/* Responsive Adjustments */
 @media (min-width: 768px) {
-  .login-container h1 {
+  .login-container h2,
+  .register-container h2 {
     font-size: 2rem; /* Larger header for desktops */
   }
 
-  .login-container input {
+  .login-container input,
+  .register-container input {
     font-size: 1.1rem; /* Scale up input font */
   }
 
-  .login-container button {
+  .login-container button,
+  .register-container button {
     font-size: 1.2rem;
     padding: 16px; /* Larger padding for buttons */
   }
@@ -183,35 +213,4 @@ body {
   .register {
     font-size: 1rem;
   }
-}
-
-/* Registration Container */
-.register-container {
-  text-align: center;
-  width: 90%; /* Full width on small screens */
-  max-width: 400px; /* Limit width on larger screens */
-  padding: 20px;
-  animation: fadeIn 1s ease-in-out;
-}
-
-/* Header */
-.register-container h1 {
-  font-size: 1.5rem; /* Mobile-friendly size */
-  margin-bottom: 20px;
-  color: #fff;
-  font-weight: bold;
-}
-
-/* Back to Login Link */
-.back-to-login {
-  margin-top: 20px;
-}
-
-.back-to-login a {
-  color: #ffc107; /* Highlighted text */
-  text-decoration: none;
-}
-
-.back-to-login a:hover {
-  text-decoration: underline;
 }

@@ -6,4 +6,13 @@ export default defineConfig({
         outDir: '../dist', // Output folder for production build
         emptyOutDir: true, // Clears the output directory before building
     },
+    server: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3000', // Your Express server
+                changeOrigin: true, // Necessary for some APIs
+                rewrite: (path) => path.replace(/^\/api/, ''), // Removes /api prefix if needed
+            },
+        },
+    },
 });

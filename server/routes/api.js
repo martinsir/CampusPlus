@@ -1,88 +1,113 @@
 import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import connectToDatabase from '../db.js';
 
 const router = express.Router();
 
-/**
- * Fetch all users
- */
-router.get('/users', async (req, res) => {
-    try {
-        const db = await connectToDatabase();
-        const [users] = await db.query('SELECT * FROM Users;');
-        db.end();
-        res.json(users);
-    } catch (error) {
-        console.error('Error fetching users:', error.message);
-        res.status(500).json({ error: 'Failed to fetch users' });
-    }
-});
+// Utility to handle errors
+const handleError = (res, error, statusCode = 500, message = 'An error occurred') => {
+    console.error(`${message}:`, error.message || error);
+    res.status(statusCode).json({ error: message });
+};
 
-/**
- * Add a new user
- */
-router.post('/users', async (req, res) => {
-    const { name, email, role, phoneNumber } = req.body;
+// Login Route
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
 
-    // Validate required fields
-    if (!name || !email || !role) {
-        return res.status(400).json({ error: 'Name, email, and role are required' });
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
     }
 
     try {
         const db = await connectToDatabase();
-        const [result] = await db.query(
-            'INSERT INTO Users (Name, Email, Role, PhoneNumber) VALUES (?, ?, ?, ?);',
-            [name, email, role, phoneNumber || null]
+
+        // Check if user exists
+        const [users] = await db.query('SELECT * FROM Users WHERE Email = ?;', [email]);
+        const user = users[0];
+
+        if (!user) {
+            db.end();
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        // Validate password
+        const isPasswordValid = await bcrypt.compare(password, user.Password);
+        if (!isPasswordValid) {
+            db.end();
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign(
+            { id: user.UserID, role: user.Role },
+            process.env.JWT_SECRET, // Ensure this is set in your .env file
+            { expiresIn: '1h' }
         );
+
         db.end();
-        res.json({ message: 'User added successfully', userId: result.insertId });
+
+        // Return success response with token
+        res.json({
+            message: 'Login successful',
+            token,
+            user: { id: user.UserID, name: user.Name, role: user.Role },
+        });
     } catch (error) {
-        console.error('Error adding user:', error.message);
-        res.status(500).json({ error: 'Failed to add user' });
+        handleError(res, error, 500, 'Failed to log in');
     }
 });
 
-/**
- * Update an existing user
- */
-router.put('/users/:id', async (req, res) => {
-    const { id } = req.params;
-    const { name, email, role, phoneNumber } = req.body;
+// Register Route
+router.post('/register', async (req, res) => {
+    const { name, email, password, role, phoneNumber, schoolId } = req.body;
 
-    if (!name || !email || !role) {
-        return res.status(400).json({ error: 'Name, email, and role are required' });
+    console.log('Registration attempt:', req.body);
+
+    // Check for required fields
+    if (!name || !email || !password || !role) {
+        return res.status(400).json({ error: 'Name, email, password, and role are required' });
     }
 
     try {
         const db = await connectToDatabase();
+
+        // Check if the email already exists
+        const [existingUser] = await db.query('SELECT * FROM Users WHERE Email = ?;', [email]);
+        if (existingUser.length > 0) {
+            db.end();
+            return res.status(400).json({ error: 'Email is already registered' });
+        }
+
+        // Hash the password before storing
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Insert the new user
         const [result] = await db.query(
-            'UPDATE Users SET Name = ?, Email = ?, Role = ?, PhoneNumber = ? WHERE UserID = ?;',
-            [name, email, role, phoneNumber || null, id]
+            'INSERT INTO Users (Name, Email, Password, Role, PhoneNumber, SchoolID) VALUES (?, ?, ?, ?, ?, ?);',
+            [name, email, hashedPassword, role, phoneNumber || null, schoolId || null]
         );
+
+        console.log('User successfully registered:', result.insertId);
+
+        // Generate JWT token for automatic login
+        const token = jwt.sign(
+            { id: result.insertId, role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
         db.end();
-        res.json({ message: 'User updated successfully', affectedRows: result.affectedRows });
+
+        res.status(201).json({
+            message: 'User registered successfully',
+            userId: result.insertId,
+            token,
+        });
     } catch (error) {
-        console.error('Error updating user:', error.message);
-        res.status(500).json({ error: 'Failed to update user' });
+        handleError(res, error, 500, 'Failed to register user');
     }
 });
 
-/**
- * Delete a user
- */
-router.delete('/users/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const db = await connectToDatabase();
-        const [result] = await db.query('DELETE FROM Users WHERE UserID = ?;', [id]);
-        db.end();
-        res.json({ message: 'User deleted successfully', affectedRows: result.affectedRows });
-    } catch (error) {
-        console.error('Error deleting user:', error.message);
-        res.status(500).json({ error: 'Failed to delete user' });
-    }
-});
-
+// Export the router
 export default router;

@@ -1,70 +1,80 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const loginPage = document.getElementById("login-page");
+    const registerPage = document.getElementById("register-page");
+    const backToLogin = document.getElementById("back-to-login");
+    const registerLink = document.querySelector(".register a");
+    const registerForm = document.getElementById("register-form");
     const loginForm = document.getElementById("login-form");
-    const guestButton = document.getElementById("guest-button");
   
-    // Handle login form submission
-    if (loginForm) {
-      loginForm.addEventListener("submit", (event) => {
+    // Show registration page
+    if (registerLink) {
+      registerLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        loginPage.style.display = "none";
+        registerPage.style.display = "block";
+      });
+    }
+  
+    // Go back to login page
+    if (backToLogin) {
+      backToLogin.addEventListener("click", (event) => {
+        event.preventDefault();
+        registerPage.style.display = "none";
+        loginPage.style.display = "block";
+      });
+    }
+  
+    // Handle registration form submission
+    if (registerForm) {
+      registerForm.addEventListener("submit", (event) => {
         event.preventDefault();
   
-        const username = document.getElementById("brugernavn").value;
-        const password = document.getElementById("kodeord").value;
+        const username = document.getElementById("register-brugernavn").value;
+        const email = document.getElementById("register-email").value;
+        const password = document.getElementById("register-kodeord").value;
+        const confirmPassword = document.getElementById("register-bekræft-kodeord").value;
   
-        if (username === "admin" && password === "admin") {
-          console.log("Login successful");
-          showMainContent();
-        } else {
-          alert("Ugyldigt brugernavn eller kodeord.");
+        if (password !== confirmPassword) {
+          alert("Kodeordene matcher ikke. Prøv igen.");
+          return;
         }
+  
+        // Mock API call for registration
+        console.log("Registering user:", { username, email, password });
+  
+        // Redirect to login after successful registration
+        alert("Registrering fuldført. Log venligst ind.");
+        registerPage.style.display = "none";
+        loginPage.style.display = "block";
       });
     }
   
-    // Handle guest login
-    if (guestButton) {
-      guestButton.addEventListener("click", () => {
-        alert("Du er logget ind som gæst. Begrænset adgang aktiveret.");
+    // Handle login form submission
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
   
-        // Hide the bottom navigation bar styles
-        const bottomNavStylesheet = document.getElementById("bottom-nav-stylesheet");
-        if (bottomNavStylesheet) {
-          bottomNavStylesheet.remove();
-          console.log("Bottom navigation bar disabled for guest.");
-        }
+      const username = document.getElementById("brugernavn").value;
+      const password = document.getElementById("kodeord").value;
   
-        // Call function to show the main content
+      if (username === "admin" && password === "admin") {
+        alert("Login successful");
         showMainContent();
-      });
-    }
-  
-    // Utility to remove login stylesheet dynamically
-    function removeLoginStylesheet() {
-      const loginStylesheet = document.getElementById("login-stylesheet");
-      if (loginStylesheet) loginStylesheet.remove();
-    }
-  
-    // Show main content
-    function showMainContent() {
-      // Hide splash screen
-      const splashScreen = document.getElementById("splash");
-      if (splashScreen) splashScreen.style.display = "none";
-  
-      // Hide login page
-      const loginPage = document.getElementById("login-page");
-      if (loginPage) loginPage.style.display = "none";
-  
-      // Remove login stylesheet
-      removeLoginStylesheet();
-  
-      // Show main content
-      const mainContent = document.getElementById("content");
-      const videoContainer = document.querySelector(".video-container");
-      const contentContainer = document.querySelector(".content-container");
-  
-      if (mainContent) mainContent.style.display = "block";
-      if (videoContainer) videoContainer.style.display = "block";
-      if (contentContainer) contentContainer.style.display = "block";
-  
-      console.log("Main content displayed.");
-    }
+      } else {
+        alert("Ugyldigt brugernavn eller kodeord.");
+      }
+    });
   });
+  
+  // Function to show the main content
+  function showMainContent() {
+    const loginPage = document.getElementById("login-page");
+    const registerPage = document.getElementById("register-page");
+    const mainContent = document.getElementById("content");
+  
+    if (loginPage) loginPage.style.display = "none";
+    if (registerPage) registerPage.style.display = "none";
+    if (mainContent) mainContent.style.display = "block";
+  
+    console.log("Main content displayed.");
+  }
   

@@ -64,15 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const role = document.getElementById('register-role').value;
         const schoolId = parseInt(document.getElementById('register-school').value, 10);
     
-        console.log('Password:', password);
-        console.log('Confirm Password:', confirmPassword);
+        // Enforce dummy secure password rules
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            alert('Password must be at least 8 characters, include one uppercase letter, one number, and one special character.');
+            return;
+        }
     
         if (password !== confirmPassword) {
-            console.error('Passwords do not match:', password, confirmPassword);
             alert('Passwords do not match!');
             return;
         }
-        
     
         const userData = { name, email, password, role, phoneNumber, schoolId };
     
@@ -82,21 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),
             });
-        
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                const errorText = await response.text();
-                console.error('Unexpected response format:', errorText);
-                throw new Error('Unexpected server response');
-            }
-        
-            const result = await response.json();
-        
+    
             if (!response.ok) {
-                console.error('Registration failed:', result.error || 'Unknown error');
-                throw new Error(result.error || 'Registration failed');
+                const errorResponse = await response.json();
+                console.error('Registration failed:', errorResponse.error || 'Unknown error');
+                throw new Error(errorResponse.error || 'Registration failed');
             }
-        
+    
+            const result = await response.json();
             console.log('Registration successful:', result);
             alert('Registration successful! You can now log in.');
             document.getElementById('back-to-login').click();
@@ -104,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error during registration:', error.message);
             alert(error.message);
         }
-        
     });
+    
     
 
     // Show main content after login

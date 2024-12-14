@@ -58,6 +58,9 @@ router.post('/login', async (req, res) => {
     }
 });
 
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 // Register Route
 router.post('/register', async (req, res) => {
     const { name, email, password, role, phoneNumber, schoolId } = req.body;
@@ -67,6 +70,14 @@ router.post('/register', async (req, res) => {
     // Check for required fields
     if (!name || !email || !password || !role) {
         return res.status(400).json({ error: 'Name, email, password, and role are required' });
+    }
+
+    // Password validation (dummy secure requirements)
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+            error: 'Password must be at least 8 characters, include one uppercase letter, one number, and one special character.',
+        });
     }
 
     try {
@@ -105,9 +116,11 @@ router.post('/register', async (req, res) => {
             token,
         });
     } catch (error) {
-        handleError(res, error, 500, 'Failed to register user');
+        console.error('Error during registration:', error);
+        res.status(500).json({ error: 'Failed to register user' });
     }
 });
+
 
 // Export the router
 export default router;

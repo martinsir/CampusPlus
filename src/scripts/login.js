@@ -3,66 +3,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // DOM Elements
     const loginForm = document.getElementById("login-form");
-    const passwordInput = document.getElementById("register-kodeord");
-    const registerButton = document.getElementById("register-button");
-    const passwordRequirementsContainer = document.createElement("div");
-
-    // Add password requirements UI
-    passwordRequirementsContainer.id = "password-requirements";
-    const requirements = {
-        length: { text: "At least 8 characters", valid: false },
-        uppercase: { text: "At least 1 uppercase letter", valid: false },
-        number: { text: "At least 1 number", valid: false },
-        special: { text: "At least 1 special character", valid: false },
-    };
-
-    // Attach password requirements dynamically
-    if (!document.getElementById("password-requirements")) {
-        passwordRequirementsContainer.innerHTML = `
-            <ul>
-                ${Object.entries(requirements)
-                    .map(([key, req]) => `<li id="${key}-req" class="invalid">${req.text}</li>`)
-                    .join("")}
-            </ul>`;
-        passwordInput.parentElement.appendChild(passwordRequirementsContainer);
-    }
+    const loginButton = document.getElementById("login-button");
+    const usernameInput = document.getElementById("brugernavn");
+    const passwordInput = document.getElementById("kodeord");
 
     /**
-     * Updates the password requirements UI dynamically.
+     * Enables or disables the login button based on input validation.
      */
-    const updatePasswordUI = () => {
-        Object.entries(requirements).forEach(([key, req]) => {
-            const element = document.getElementById(`${key}-req`);
-            if (req.valid) {
-                element.classList.add("valid");
-                element.classList.remove("invalid");
-            } else {
-                element.classList.add("invalid");
-                element.classList.remove("valid");
-            }
-        });
+    const validateLoginForm = () => {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        // Enable the login button if both fields have values
+        loginButton.disabled = username === "" || password === "";
     };
 
-    /**
-     * Validates the password in real-time.
-     */
-    const validatePassword = () => {
-        const password = passwordInput.value;
+    // Attach input event listeners for real-time validation
+    usernameInput.addEventListener("input", validateLoginForm);
+    passwordInput.addEventListener("input", validateLoginForm);
 
-        // Validate against password requirements
-        requirements.length.valid = password.length >= 8;
-        requirements.uppercase.valid = /[A-Z]/.test(password);
-        requirements.number.valid = /\d/.test(password);
-        requirements.special.valid = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-        updatePasswordUI();
-
-        // Enable register button only if all requirements are valid
-        registerButton.disabled = !Object.values(requirements).every((req) => req.valid);
-    };
-
-    // Attach input event listener for real-time validation
-    passwordInput.addEventListener("input", validatePassword);
+    // Validate the login form on page load
+    validateLoginForm();
 
     /**
      * Handles login form submission.
@@ -71,14 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         console.log("Login form submitted");
 
-        const email = loginForm.elements["brugernavn"].value.trim();
-        const password = loginForm.elements["kodeord"].value.trim();
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
 
         try {
+            // Send login data to the server
             const response = await fetch("/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, password }),
             });
 
             if (!response.ok) {
@@ -87,8 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error(errorResponse.error || "Login failed");
             }
 
+            // Successful login
             const result = await response.json();
             console.log("Login successful:", result);
+
+            // Save user details to localStorage for further use
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("role", result.role);
+
+            // Redirect or load the main content
             showMainContent();
         } catch (error) {
             console.error("Error during login:", error.message);
@@ -101,11 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     const showMainContent = () => {
         document.getElementById("login-page").style.display = "none";
-        document.getElementById("register-page").style.display = "none";
         document.getElementById("content").style.display = "block";
         console.log("Main content displayed");
     };
-
-    // Initialize password validation on load
-    validatePassword();
 });

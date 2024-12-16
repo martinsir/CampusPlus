@@ -88,51 +88,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const showMainContent = () => {
         console.log("Showing main content...");
     
-        // Hide the login page
+        // Hide the login page and form
         const loginPage = document.getElementById("login-page");
         if (loginPage) {
-            loginPage.classList.remove("visible");
-            loginPage.classList.add("hidden");
+            loginPage.style.display = "none"; // Hides login page completely
             console.log("Login page hidden.");
-        }
-    
-        // Hide the login form
-        const loginForm = document.getElementById("login-form");
-        if (loginForm) {
-            loginForm.classList.remove("visible");
-            loginForm.classList.add("hidden");
-            console.log("Login form hidden.");
         }
     
         // Hide the "Fortsæt som gæst" button
         const guestButton = document.getElementById("guest-button");
         if (guestButton) {
-            guestButton.classList.remove("visible");
-            guestButton.classList.add("hidden");
+            guestButton.style.display = "none"; // Hides the button completely
             console.log('"Fortsæt som gæst" button hidden.');
         }
     
         // Show the video container
         const videoContainer = document.querySelector(".video-container");
         if (videoContainer) {
-            videoContainer.classList.remove("hidden");
-            videoContainer.classList.add("visible");
+            videoContainer.style.display = ""; // Restore default display (CSS-controlled)
             console.log("Video container shown.");
         }
     
         // Show the content container
         const contentContainer = document.querySelector(".content-container");
         if (contentContainer) {
-            contentContainer.classList.remove("hidden");
-            contentContainer.classList.add("flex-visible");
+            contentContainer.style.display = ""; // Restore default display (CSS-controlled)
             console.log("Content container shown.");
+    
+            // Ensure all content boxes follow the CSS layout
+            const contentBoxes = contentContainer.querySelectorAll('[class^="content-box"]');
+            contentBoxes.forEach((box) => {
+                box.style.display = ""; // Restore default display (CSS-controlled)
+                console.log(`Content box "${box.className}" shown.`);
+            });
         }
     
         // Show the bottom navigation
         const bottomNav = document.querySelector(".bottom-nav");
         if (bottomNav) {
-            bottomNav.classList.remove("hidden");
-            bottomNav.classList.add("flex-visible");
+            bottomNav.style.display = ""; // Restore default display (CSS-controlled)
             console.log("Bottom navigation shown.");
         }
     

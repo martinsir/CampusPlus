@@ -183,7 +183,7 @@ body {
   align-items: center; /* Center text vertically */
 }
 
-.hidden {
+/* .hidden {
   display: none;
 }
 
@@ -192,7 +192,8 @@ body {
 }
 .flex-visible {
   display: flex; /* Special class to show flexbox elements */
-}
+/* }  */
+
 /* Hover effect */
 [class^="content-box"]:hover {
   transform: translateY(-5px);

@@ -35,8 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
 
+        if (!username || !password) {
+            alert("Please enter both username and password.");
+            return;
+        }
+
+        loginButton.disabled = true;
+        loginButton.textContent = "Loading...";
+
         try {
-            // Send login data to the server
             const response = await fetch("/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -45,79 +52,109 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!response.ok) {
                 const errorResponse = await response.json();
+                if (response.status === 401 || response.status === 403) {
+                    alert("Invalid credentials or session expired. Please log in again.");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                }
                 console.error("Login failed:", errorResponse.error || "Unknown error");
                 throw new Error(errorResponse.error || "Login failed");
             }
 
-            // Successful login
             const result = await response.json();
             console.log("Login successful:", result);
 
-            // Save user details to localStorage for further use
             localStorage.setItem("token", result.token);
             localStorage.setItem("role", result.role);
 
             // Redirect or load the main content
-            showMainContent();
+            if (result.role === "admin") {
+                window.location.href = "/admin-dashboard";
+            } else {
+                showMainContent();
+            }
         } catch (error) {
             console.error("Error during login:", error.message);
             alert(`Login failed: ${error.message}`);
+        } finally {
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
         }
     });
 
     /**
-     * Displays the main content after a successful login.
+     * Displays the main content and hides the login page after login.
      */
- /**
- * Displays the main content and hides the login page after login.
- */
-const showMainContent = () => {
-    // Hide the entire login page
-    const loginPage = document.getElementById("login-page");
-    if (loginPage) {
-        loginPage.style.display = "none"; // Hide the login page
-    }
-
-    // Show the main content container
-    const contentContainer = document.querySelector(".content-container");
-    if (contentContainer) {
-        contentContainer.style.display = "flex: 1 1 calc(33.333% - 40px) "; // Show main content
-    } 
-    const contentBoxes = document.querySelectorAll('[class^="content-box"]');
-    contentBoxes.forEach((box) => {
-        box.style.display = "flex: 1 1 calc(33.333% - 40px)"; // Ensure content-box is visible
-    });
+    const showMainContent = () => {
+        console.log("Showing main content...");
     
-    const VidContainer = document.getElementById(".video-container ");
-    if (VidContainer) {
-        VidContainer.style.display = "flex: 1 1 100%"; // Show main content
-    }
-
-
-
-    // Show the bottom navigation
-    const bottomNav = document.querySelector(".bottom-nav");
-    if (bottomNav) {
-        bottomNav.style.display = "flex"; // Show bottom navigation
-    }
-
-    // Update stylesheets
-    const loginStylesheet = document.getElementById("login-stylesheet");
-    if (loginStylesheet) {
-        loginStylesheet.disabled = true; // Disable login styles
-    }
-    const bottomNavStylesheet = document.getElementById("bottom-nav-stylesheet");
-    if (bottomNavStylesheet) {
-        bottomNavStylesheet.disabled = false; // Enable bottom-nav styles
-    }
-    const mainStyles = document.getElementById("main-stylesheet");
-    if (mainStyles) {
-        mainStyles.disabled = false; // Enable bottom-nav styles
-    }
-
-
-    console.log("Main content and navigation displayed. Login page hidden.");
-};
-
+        // Hide the login page
+        const loginPage = document.getElementById("login-page");
+        if (loginPage) {
+            loginPage.classList.remove("visible");
+            loginPage.classList.add("hidden");
+            console.log("Login page hidden.");
+        }
+    
+        // Hide the login form
+        const loginForm = document.getElementById("login-form");
+        if (loginForm) {
+            loginForm.classList.remove("visible");
+            loginForm.classList.add("hidden");
+            console.log("Login form hidden.");
+        }
+    
+        // Hide the "Fortsæt som gæst" button
+        const guestButton = document.getElementById("guest-button");
+        if (guestButton) {
+            guestButton.classList.remove("visible");
+            guestButton.classList.add("hidden");
+            console.log('"Fortsæt som gæst" button hidden.');
+        }
+    
+        // Show the video container
+        const videoContainer = document.querySelector(".video-container");
+        if (videoContainer) {
+            videoContainer.classList.remove("hidden");
+            videoContainer.classList.add("visible");
+            console.log("Video container shown.");
+        }
+    
+        // Show the content container
+        const contentContainer = document.querySelector(".content-container");
+        if (contentContainer) {
+            contentContainer.classList.remove("hidden");
+            contentContainer.classList.add("flex-visible");
+            console.log("Content container shown.");
+        }
+    
+        // Show the bottom navigation
+        const bottomNav = document.querySelector(".bottom-nav");
+        if (bottomNav) {
+            bottomNav.classList.remove("hidden");
+            bottomNav.classList.add("flex-visible");
+            console.log("Bottom navigation shown.");
+        }
+    
+        // Ensure correct stylesheets are enabled
+        const loginStylesheet = document.getElementById("login-stylesheet");
+        if (loginStylesheet) {
+            loginStylesheet.disabled = true; // Disable login styles
+            console.log("Login stylesheet disabled.");
+        }
+        const mainStylesheet = document.getElementById("main-stylesheet");
+        if (mainStylesheet) {
+            mainStylesheet.disabled = false; // Enable main content styles
+            console.log("Main stylesheet enabled.");
+        }
+        const bottomNavStylesheet = document.getElementById("bottom-nav-stylesheet");
+        if (bottomNavStylesheet) {
+            bottomNavStylesheet.disabled = false; // Enable bottom nav styles
+            console.log("Bottom navigation stylesheet enabled.");
+        }
+    
+        console.log("Main content displayed.");
+    };
+    
     
 });

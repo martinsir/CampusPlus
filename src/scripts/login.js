@@ -68,9 +68,56 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * Displays the main content after a successful login.
      */
-    const showMainContent = () => {
-        document.getElementById("login-page").style.display = "none";
-        document.getElementById("content").style.display = "block";
-        console.log("Main content displayed");
-    };
+ /**
+ * Displays the main content and hides the login page after login.
+ */
+const showMainContent = () => {
+    // Hide the entire login page
+    const loginPage = document.getElementById("login-page");
+    if (loginPage) {
+        loginPage.style.display = "none"; // Hide the login page
+    }
+
+    // Show the main content container
+    const contentContainer = document.querySelector(".content-container");
+    if (contentContainer) {
+        contentContainer.style.display = "flex: 1 1 calc(33.333% - 40px) "; // Show main content
+    } 
+    const contentBoxes = document.querySelectorAll('[class^="content-box"]');
+    contentBoxes.forEach((box) => {
+        box.style.display = "flex: 1 1 calc(33.333% - 40px)"; // Ensure content-box is visible
+    });
+    
+    const VidContainer = document.getElementById(".video-container ");
+    if (VidContainer) {
+        VidContainer.style.display = "flex: 1 1 100%"; // Show main content
+    }
+
+
+
+    // Show the bottom navigation
+    const bottomNav = document.querySelector(".bottom-nav");
+    if (bottomNav) {
+        bottomNav.style.display = "flex"; // Show bottom navigation
+    }
+
+    // Update stylesheets
+    const loginStylesheet = document.getElementById("login-stylesheet");
+    if (loginStylesheet) {
+        loginStylesheet.disabled = true; // Disable login styles
+    }
+    const bottomNavStylesheet = document.getElementById("bottom-nav-stylesheet");
+    if (bottomNavStylesheet) {
+        bottomNavStylesheet.disabled = false; // Enable bottom-nav styles
+    }
+    const mainStyles = document.getElementById("main-stylesheet");
+    if (mainStyles) {
+        mainStyles.disabled = false; // Enable bottom-nav styles
+    }
+
+
+    console.log("Main content and navigation displayed. Login page hidden.");
+};
+
+    
 });

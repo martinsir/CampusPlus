@@ -177,6 +177,16 @@ body {
   align-items: center; /* Center text vertically */
 }
 
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+
+
 /* Hover effect */
 [class^="content-box"]:hover {
   transform: translateY(-5px);

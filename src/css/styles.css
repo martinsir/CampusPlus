@@ -9,13 +9,16 @@
 #header {
   font-family: "Metral", Arial, sans-serif;
 }
-
 h1 {
-  color: #fdc724;
-  padding: 10px;
-  margin: 200px 0 500px 0;
+  margin-bottom: 400px;
 }
-
+#content h1 {
+  color: #fdc724;
+  position: relative; /* Allows it to be offset from its normal position */
+  top: 100px; /* Moves the <h1> down */
+  text-align: center;
+  padding: 40px;
+}
 /* Mobile and Tablet */
 h2 {
   color: #fff; /* White text */
@@ -49,12 +52,6 @@ body {
 .logo-link {
   display: inline-block; /* Ensure it's block-like for the image */
   text-decoration: none; /* Remove underline */
-}
-#content h1 {
-  position: relative; /* Allows it to be offset from its normal position */
-  top: 50px; /* Moves the <h1> down */
-  text-align: center;
-  padding: 40px;
 }
 
 /* Corner logo styles */
@@ -120,7 +117,7 @@ body {
   display: flex; /* Use Flexbox */
   justify-content: center; /* Center content horizontally */
   align-items: center; /* Center content vertically */
-  margin-bottom: 20px; /* Add spacing between stacked boxes */
+  margin-bottom: 5px; /* Add spacing between stacked boxes */
 }
 
 [class^="content-box"] h2 {
@@ -182,17 +179,6 @@ body {
   justify-content: center; /* Center text horizontally */
   align-items: center; /* Center text vertically */
 }
-
-/* .hidden {
-  display: none;
-}
-
-.visible {
-  display: block;
-}
-.flex-visible {
-  display: flex; /* Special class to show flexbox elements */
-/* }  */
 
 /* Hover effect */
 [class^="content-box"]:hover {

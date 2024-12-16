@@ -88,66 +88,87 @@ document.addEventListener("DOMContentLoaded", () => {
     const showMainContent = () => {
         console.log("Showing main content...");
     
-        // Hide the login page and form
+        // Variables
         const loginPage = document.getElementById("login-page");
+        const loginForm = document.getElementById("login-form");
+        const guestButton = document.getElementById("guest-button");
+        const videoContainer = document.querySelector(".video-container");
+        const contentContainer = document.querySelector(".content-container");
+        const contentBoxes = document.querySelectorAll('[class^="content-box"]');
+        const bottomNav = document.querySelector(".bottom-nav");
+        const mainContent = document.getElementById("content");
+    
+        const loginStylesheet = document.getElementById("login-stylesheet");
+        const mainStylesheet = document.getElementById("main-stylesheet");
+        const bottomNavStylesheet = document.getElementById("bottom-nav-stylesheet");
+    
+        // 1. Hide the login page and login form
         if (loginPage) {
-            loginPage.style.display = "none"; // Hides login page completely
+            loginPage.style.display = "none";
             console.log("Login page hidden.");
         }
+        if (loginForm) {
+            loginForm.style.display = "none";
+            console.log("Login form hidden.");
+        }
     
-        // Hide the "Fortsæt som gæst" button
-        const guestButton = document.getElementById("guest-button");
+        // 2. Hide the "Fortsæt som gæst" button
         if (guestButton) {
-            guestButton.style.display = "none"; // Hides the button completely
+            guestButton.style.display = "none";
             console.log('"Fortsæt som gæst" button hidden.');
         }
     
-        // Show the video container
-        const videoContainer = document.querySelector(".video-container");
+        // 3. Show the video container
         if (videoContainer) {
-            videoContainer.style.display = ""; // Restore default display (CSS-controlled)
+            videoContainer.style.display = ""; // Restore CSS default
             console.log("Video container shown.");
         }
     
-        // Show the content container
-        const contentContainer = document.querySelector(".content-container");
+        // 4. Show the content container
         if (contentContainer) {
-            contentContainer.style.display = ""; // Restore default display (CSS-controlled)
+            contentContainer.style.display = ""; // Restore CSS default
             console.log("Content container shown.");
-    
-            // Ensure all content boxes follow the CSS layout
-            const contentBoxes = contentContainer.querySelectorAll('[class^="content-box"]');
-            contentBoxes.forEach((box) => {
-                box.style.display = ""; // Restore default display (CSS-controlled)
-                console.log(`Content box "${box.className}" shown.`);
-            });
         }
     
-        // Show the bottom navigation
-        const bottomNav = document.querySelector(".bottom-nav");
+        // 5. Show all content boxes
+        if (contentBoxes.length > 0) {
+            contentBoxes.forEach((box) => {
+                box.style.display = ""; // Restore CSS default
+                console.log(`Content box "${box.className}" shown.`);
+            });
+        } else {
+            console.warn("No content boxes found.");
+        }
+    
+        // 6. Show the #content (Main Content)
+        if (mainContent) {
+            mainContent.style.display = ""; // Restore CSS default
+            console.log("Main content section shown.");
+        } else {
+            console.warn("#content not found.");
+        }
+    
+        // 7. Show the bottom navigation
         if (bottomNav) {
-            bottomNav.style.display = ""; // Restore default display (CSS-controlled)
+            bottomNav.style.display = ""; // Restore CSS default
             console.log("Bottom navigation shown.");
         }
     
-        // Ensure correct stylesheets are enabled
-        const loginStylesheet = document.getElementById("login-stylesheet");
+        // 8. Enable the correct stylesheets
         if (loginStylesheet) {
-            loginStylesheet.disabled = true; // Disable login styles
+            loginStylesheet.disabled = true; // Disable login stylesheet
             console.log("Login stylesheet disabled.");
         }
-        const mainStylesheet = document.getElementById("main-stylesheet");
         if (mainStylesheet) {
-            mainStylesheet.disabled = false; // Enable main content styles
+            mainStylesheet.disabled = false; // Enable main stylesheet
             console.log("Main stylesheet enabled.");
         }
-        const bottomNavStylesheet = document.getElementById("bottom-nav-stylesheet");
         if (bottomNavStylesheet) {
-            bottomNavStylesheet.disabled = false; // Enable bottom nav styles
+            bottomNavStylesheet.disabled = false; // Enable bottom nav stylesheet
             console.log("Bottom navigation stylesheet enabled.");
         }
     
-        console.log("Main content displayed.");
+        console.log("Main content displayed successfully.");
     };
     
     

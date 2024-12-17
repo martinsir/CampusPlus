@@ -305,6 +305,7 @@ Mappe struktur
         └── styles.css
     └── 📁scripts
         └── bottom-nav.js
+        └── ticket.js 
         └── login.js
         └── main.js
         └── profile.js

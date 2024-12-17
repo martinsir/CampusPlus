@@ -1,95 +1,68 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Bottom navigation and ticket functionality initialized.");
+    console.log("Ticket system initialized.");
   
-    const ticketButton = document.getElementById("ticket-button");
-    const ticketStatus = document.getElementById("ticket-status");
-    const ticketDisplay = document.getElementById("ticket-display");
-    const ticketId = document.getElementById("ticket-id");
-    const ticketName = document.getElementById("ticket-name");
-    const ticketSchool = document.getElementById("ticket-school");
-    const ticketRole = document.getElementById("ticket-role");
-    const ticketZone = document.getElementById("ticket-zone");
+    const confirmBulkButton = document.getElementById("confirm-bulk-purchase");
+    const closeModalButton = document.getElementById("close-modal");
+    const modal = document.getElementById("bulk-ticket-modal");
   
-    // Simulated user data
-    const userData = {
-      name: "Martin Hansen",
-      school: "Zealand Business School",
-      role: "Studerende",
-    };
-  
-    // Available zones with corresponding colors
-    const zones = [
-      { name: "Grøn", color: "green" },
-      { name: "Rød", color: "red" },
-      { name: "Blå", color: "blue" },
-      { name: "Lyserød", color: "pink" },
-      { name: "Gul", color: "yellow" },
-    ];
-  
-    // Simulated ticket state
-    const ticketState = {
-      hasPurchased: false,
-      eligibleForFreeTicket: true,
-    };
-  
-    // Update button text and functionality
-    const updateTicketButton = () => {
-      if (ticketState.hasPurchased) {
-        ticketStatus.textContent = "Din Billet";
-        ticketButton.onclick = () => alert("Du har allerede en billet!");
-      } else if (ticketState.eligibleForFreeTicket) {
-        ticketStatus.textContent = "Hent Billet";
-        ticketButton.onclick = claimTicket;
-      } else {
-        ticketStatus.textContent = "Køb Billet";
-        ticketButton.onclick = buyTicket;
+    /**
+     * Opens the bulk ticket modal.
+     */
+    const openModal = () => {
+      if (modal) {
+        modal.classList.remove("hidden");
+        modal.classList.add("visible");
+        console.log("Bulk ticket modal opened.");
       }
     };
   
-    // Claim free ticket
-    const claimTicket = () => {
-      console.log("Processing free ticket claim...");
-      setTimeout(() => {
-        alert("Du har succesfuldt hentet din billet!");
-        ticketState.hasPurchased = true;
-        generateTicket();
-        updateTicketButton();
-      }, 1000);
+    /**
+     * Closes the bulk ticket modal.
+     */
+    const closeModal = () => {
+      if (modal) {
+        modal.classList.remove("visible");
+        modal.classList.add("hidden");
+        console.log("Bulk ticket modal closed.");
+      }
     };
   
-    // Buy ticket: Generate a dummy ticket and display it
-    const buyTicket = () => {
-      console.log("Generating dummy ticket...");
-      generateTicket();
-      ticketState.hasPurchased = true; // Mark ticket as purchased
-      updateTicketButton();
-    };
+    /**
+     * Handles bulk ticket confirmation and displays the invoice message.
+     */
+    const handleBulkConfirmation = () => {
+      closeModal(); // Hide the bulk ticket modal
   
-    // Generate ticket data and display it
-    const generateTicket = () => {
-      const generatedTicketId = Math.floor(100000 + Math.random() * 900000); // Random 6-digit ID
-      const randomZone = zones[Math.floor(Math.random() * zones.length)]; // Random zone
+      // Show the confirmation message
+      const invoiceMessage = document.createElement("div");
+      invoiceMessage.classList.add("invoice-message");
+      invoiceMessage.innerHTML = `
+        <div class="modal-content">
+          <h3>Faktura tilsendt via mail</h3>
+          <p>Tjek venligst din indbakke for yderligere detaljer.</p>
+          <button id="close-invoice">Luk</button>
+        </div>
+      `;
   
-      // Update ticket information
-      ticketId.textContent = generatedTicketId;
-      ticketName.textContent = userData.name;
-      ticketSchool.textContent = userData.school;
-      ticketRole.textContent = userData.role;
-      ticketZone.textContent = randomZone.name;
-      ticketZone.style.backgroundColor = randomZone.color;
+      // Append the confirmation message to the body
+      document.body.appendChild(invoiceMessage);
   
-      // Show the ticket display
-      ticketDisplay.style.display = "block";
-      console.log("Dummy ticket generated:", {
-        id: generatedTicketId,
-        name: userData.name,
-        school: userData.school,
-        role: userData.role,
-        zone: randomZone,
+      // Close the message when clicking the button
+      document.getElementById("close-invoice").addEventListener("click", () => {
+        invoiceMessage.remove();
+        console.log("Invoice message closed.");
       });
     };
   
-    // Initialize button on load
-    updateTicketButton();
+    // Event Listeners for buttons inside the modal
+    if (confirmBulkButton) {
+      confirmBulkButton.addEventListener("click", handleBulkConfirmation);
+    }
+    if (closeModalButton) {
+      closeModalButton.addEventListener("click", closeModal);
+    }
+  
+    // Listen for the custom event to open the modal
+    document.addEventListener("open-ticket-modal", openModal);
   });
   

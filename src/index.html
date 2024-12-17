@@ -257,11 +257,10 @@
         <h2>Box</h2>
       </div>
     </div>
-
     <!-- Bottom Navigation Menu -->
     <nav class="bottom-nav" style="display: none">
-      <!-- Map Link -->
-      <a href="#home" class="nav-item">
+      <!-- Map Button -->
+      <a href="#" id="map-button" class="nav-item">
         <img src="assets/images/bot-map.png" alt="Kort" />
       </a>
 
@@ -276,6 +275,20 @@
         <img src="assets/images/bot-program.png" alt="Program" />
       </a>
     </nav>
+
+    <!-- Map Modal -->
+    <div id="map-modal" style="display: none">
+      <div class="modal-content">
+        <h3>Campus+ Kort</h3>
+        <img
+          id="map-image"
+          src="assets/images/campusplus-standoversigt2024.webp"
+          alt="Campus Kort"
+          style="max-width: 100%; height: auto; transform-origin: center center"
+        />
+        <button id="close-map-modal">Luk</button>
+      </div>
+    </div>
 
     <!-- Ticket Display Modal -->
     <div id="ticket-display" style="display: none"></div>

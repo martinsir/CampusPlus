@@ -199,21 +199,44 @@
 
     <!-- Bottom Navigation Menu -->
     <nav class="bottom-nav" style="display: none">
+      <!-- Map Link -->
       <a href="#home" class="nav-item">
         <img src="assets/images/bot-map.png" alt="Kort" />
       </a>
-      <a href="#profile" class="nav-item">
+
+      <!-- Ticket Button -->
+      <a href="#" id="ticket-button" class="nav-item">
         <img src="assets/images/bot-ticket.png" alt="Billet" />
+        <span id="ticket-status" class="ticket-status">Køb Billet</span>
       </a>
+
+      <!-- Program Link -->
       <a href="#settings" class="nav-item">
         <img src="assets/images/bot-program.png" alt="Program" />
       </a>
     </nav>
+    <!-- Ticket Display -->
+    <div id="ticket-display" style="display: none">
+      <div class="ticket">
+        <h3>Din Billet</h3>
+        <p><strong>Navn:</strong> <span id="ticket-name">[Navn]</span></p>
+        <p><strong>Skole:</strong> <span id="ticket-school">[Skole]</span></p>
+        <p><strong>Rolle:</strong> <span id="ticket-role">[Rolle]</span></p>
+        <p>
+          <strong>Zone:</strong>
+          <span id="ticket-zone" class="zone" style="background-color: gray"
+            >[Zone]</span
+          >
+        </p>
+        <p><strong>Billet-ID:</strong> <span id="ticket-id">123456</span></p>
+      </div>
+    </div>
 
     <script src="scripts/splash.js" type="module"></script>
     <script src="scripts/login.js" type="module"></script>
     <script type="module" src="scripts/main.js"></script>
     <script type="module" src="scripts/bottom-nav.js"></script>
     <script type="module" src="scripts/register.js"></script>
+    <script src="scripts/ticket.js" type="module"></script>
   </body>
 </html>

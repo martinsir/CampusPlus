@@ -1,22 +1,21 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
+import dotenv from "dotenv";
+
+dotenv.config(); // Load environment variables
 
 export default defineConfig({
-    root: 'src',
-    build: {
-        outDir: '../dist',
-        emptyOutDir: true,
+  root: "src", // Root directory
+  build: {
+    outDir: "../dist",
+    emptyOutDir: true,
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: process.env.VITE_API_URL, // Use environment variable for API URL
+        changeOrigin: true, // Needed to avoid CORS errors
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
     },
-    server: {
-        proxy: {
-            '/api': {
-                target: 'http://localhost:3000',
-                changeOrigin: true,
-            },
-        },
-    },
-    esbuild: {
-        loader: 'js', // Ensure JS files are treated as regular JavaScript
-        include: /\.js$/, // Apply this only to .js files
-        exclude: /node_modules/, // Exclude node_modules
-    },
+  },
 });

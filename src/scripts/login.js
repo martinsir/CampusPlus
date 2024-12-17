@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginButton.textContent = "Loading...";
 
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -81,6 +81,17 @@ document.addEventListener("DOMContentLoaded", () => {
       loginButton.textContent = "Login";
     }
   });
+
+  // Guest button logic
+  document
+    .getElementById("guest-button")
+    .addEventListener("click", function () {
+      // Set the role to guest (optional tracking)
+      sessionStorage.setItem("userRole", "guest");
+
+      // Call the existing showMainContent function
+      showMainContent();
+    });
 
   /**
    * Displays the main content and hides the login page after login.
@@ -178,24 +189,16 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Header stylesheet enabled.");
     }
 
-
     if (headerContainer) {
-        headerContainer.style.display = "flex"; // Show the header
-        console.log("Header displayed.");
-      }
-      if (mobileNav) {
-        mobileNav.style.display = "block"; // Show the navigation
-        console.log("Mobile navigation displayed.");
-      }
-    
+      headerContainer.style.display = "flex"; // Show the header
+      console.log("Header displayed.");
+    }
+    if (mobileNav) {
+      mobileNav.style.display = "block"; // Show the navigation
+      console.log("Mobile navigation displayed.");
+    }
 
     // Dispatch event to show the header
     document.dispatchEvent(new Event("show-header"));
-
-
-
   };
-
-
-
 });

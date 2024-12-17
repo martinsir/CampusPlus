@@ -67,12 +67,13 @@ body {
 /* Default video container */
 .video-container {
   position: relative;
-  width: 100%; /* Fill the viewport width */
-  height: 0; /* Use padding for aspect ratio */
+  border-radius: 25px;
+  width: 100%; /* Full width for all screens */
   padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio */
+  height: 0;
   overflow: hidden;
   transition: all 0.3s ease; /* Smooth resizing */
-  border-radius: 25px;
+  margin-bottom: 5px;
 }
 
 /* Iframe scales properly */
@@ -83,17 +84,6 @@ body {
   width: 100%; /* Fill the container width */
   height: 100%; /* Fill the container height */
   border: none;
-}
-
-/* Default video container */
-.video-container {
-  position: relative;
-  width: 100%; /* Full width for all screens */
-  padding-bottom: 56.25%; /* Maintain 16:9 aspect ratio */
-  height: 0;
-  overflow: hidden;
-  transition: all 0.3s ease; /* Smooth resizing */
-  margin-bottom: 5px;
 }
 
 /* content-boxes */
@@ -206,63 +196,6 @@ body {
   }
 }
 
-/* Modal Styles */
-.modal {
-  display: none; /* Default: hidden */
-  position: fixed; /* Fixed position to cover the entire viewport */
-  top: 0;
-  left: 0;
-  width: 100%; /* Full-screen width */
-  height: 100%; /* Full-screen height */
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  z-index: 1000; /* Ensure it's above all other elements */
-}
-
-.modal-content {
-  background: #fff; /* White modal background */
-  width: 100%; /* Expand content to 100% width */
-  height: 100%; /* Expand content to 100% height */
-  padding: 40px; /* Space inside the modal */
-  border-radius: 0; /* Remove rounded corners for full-screen look */
-  text-align: center; /* Center text */
-  box-shadow: none; /* Remove shadow for full-screen appearance */
-  overflow: auto; /* Allow scrolling if content overflows */
-}
-
-.modal-content h3 {
-  margin-bottom: 20px;
-  font-size: 2rem; /* Larger heading */
-  color: #333;
-}
-
-.modal-content button {
-  background-color: #49733f; /* Custom green color */
-  color: #fff; /* White text */
-  border: none;
-  padding: 15px 30px;
-  margin: 20px 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  transition: background-color 0.2s ease;
-}
-
-.modal-content button:hover {
-  background-color: #365329; /* Darker green on hover */
-}
-
-/* Utility Classes */
-.hidden {
-  display: none; /* Hide element */
-}
-
-.visible {
-  display: flex; /* Show element */
-}
-
 /* Media Query for Desktop Screens (1024px and above) */
 @media (min-width: 1024px) {
   .modal-content {
@@ -284,11 +217,20 @@ body {
 
 /* Utility Classes for Showing and Hiding Modal */
 .hidden {
-  display: none; /* Hide element */
+  display: none; /* Modal is hidden */
 }
 
 .visible {
-  display: flex; /* Show element as a flex container */
+  display: flex; /* Modal becomes visible */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  z-index: 1000; /* Ensure it's above other content */
 }
 
 /* Invoice Confirmation Styles */
@@ -352,4 +294,117 @@ body {
     font-size: 1.1rem;
     padding: 12px 24px;
   }
+}
+/* Ticket Status below the Icon */
+.ticket-status {
+  display: block; /* Ensures text appears below the icon */
+  font-size: 0.9rem;
+  color: #fdc724; /* Matches existing yellow theme */
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Ticket Display Modal */
+#ticket-display {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.ticket {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  max-width: 400px; /* Limit ticket width for readability */
+  width: 100%; /* Adjust to parent container */
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticket div {
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Align vertically if needed */
+  margin-top: 10px; /* Add spacing above the QR code */
+}
+
+.ticket h3 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  color: #49733f; /* Green header color */
+}
+
+.ticket p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.ticket strong {
+  font-weight: bold;
+}
+
+/* Zone Styling */
+.ticket .zone {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  display: inline-block; /* Inline block for styling */
+}
+
+/* QR Code Image */
+.qr-image {
+  margin-top: 10px;
+  width: 150px;
+  height: 150px;
+  object-fit: contain; /* Prevent scaling issues */
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+}
+
+/* Background Overlay for the Modal */
+#ticket-display::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  z-index: -1;
+}
+#ticket-display.hidden {
+  display: none; /* Hide when needed */
+}
+#ticket-display.visible {
+  display: flex; /* Show modal */
+}
+
+#close-ticket-modal {
+  background-color: #49733f; /* Dark green background */
+  color: #fff; /* White text */
+  font-size: 1rem; /* Font size */
+  font-weight: bold; /* Bold text */
+  padding: 10px 20px; /* Add padding for a larger button */
+  border: none; /* Remove the default border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Show pointer cursor on hover */
+  text-transform: uppercase; /* Uppercase text */
+  margin-top: 20px; /* Add space above the button */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+#close-ticket-modal:hover {
+  background-color: #365329; /* Slightly darker green on hover */
+  transform: scale(1.05); /* Slight zoom-in effect */
 }

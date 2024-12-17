@@ -6,8 +6,16 @@
     <title>Campus+</title>
     <link
       rel="stylesheet"
+      href="css/header.css"
+      id="header-stylesheet"
+      disabled
+    />
+
+    <link
+      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+
     <link rel="stylesheet" href="css/styles.css" id="main-stylesheet" />
     <link
       rel="stylesheet"
@@ -41,6 +49,59 @@
         />
       </div>
     </div>
+
+    <!-- Header Section -->
+    <div id="header-container" style="display: none"></div>
+
+    <!-- Mobile Navigation -->
+    <nav id="mobile-nav" class="mobile-nav" style="display: none">
+      <ul>
+        <li>
+          <p>Dine klasser</p>
+          <div class="dropdown-menu" style="display: none">
+            <ul>
+              <li><a href="#">Opret klasse +</a></li>
+              <li><a href="#">Tilmeld klasse til aktivitet</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <p>Aktivitetspas</p>
+          <div class="dropdown-menu" style="display: none">
+            <ul>
+              <li><a href="#">Dine aktivitetspas</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <p>Mad og drikke</p>
+          <div class="dropdown-menu" style="display: none">
+            <ul>
+              <li><a href="#">Madbillet</a></li>
+              <li><a href="#">Kaffebillet</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <p>Undervisningsmateriale</p>
+          <div class="dropdown-menu" style="display: none">
+            <ul>
+              <li><a href="#">Dit Undervisningsmateriale</a></li>
+              <li><a href="#">Upload dit Undervisningsmateriale +</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <p>Programmer og boder</p>
+          <div class="dropdown-menu" style="display: none">
+            <ul>
+              <li><a href="#">Programoversigt</a></li>
+            </ul>
+          </div>
+        </li>
+        <li><p>Om Campus+</p></li>
+      </ul>
+    </nav>
 
     <!-- Login Page -->
     <div id="login-page" class="login-container" style="display: none">
@@ -207,7 +268,7 @@
       <!-- Ticket Button -->
       <a href="#" id="ticket-button" class="nav-item">
         <img src="assets/images/bot-ticket.png" alt="Billet" />
-        <span id="ticket-status" class="ticket-status">Køb Billet</span>
+        <span id="ticket-status" class="ticket-status"></span>
       </a>
 
       <!-- Program Link -->
@@ -215,42 +276,38 @@
         <img src="assets/images/bot-program.png" alt="Program" />
       </a>
     </nav>
-    <!-- Ticket Display test DUMMY -->
-    <div id="ticket-display" style="display: none">
-      <div class="ticket">
-        <h3>Din Billet</h3>
-        <p><strong>Navn:</strong> <span id="ticket-name">[Navn]</span></p>
-        <p><strong>Skole:</strong> <span id="ticket-school">[Skole]</span></p>
-        <p><strong>Rolle:</strong> <span id="ticket-role">[Rolle]</span></p>
-        <p>
-          <strong>Zone:</strong>
-          <span id="ticket-zone" class="zone" style="background-color: gray"
-            >[Zone]</span
-          >
-        </p>
-        <p><strong>Billet-ID:</strong> <span id="ticket-id">123456</span></p>
-      </div>
-    </div>
+
+    <!-- Ticket Display Modal -->
+    <div id="ticket-display" style="display: none"></div>
 
     <!-- Bulk Ticket Modal -->
-    <div id="bulk-ticket-modal" class="modal hidden">
+    <div
+      id="bulk-ticket-modal"
+      class="modal hidden"
+      role="dialog"
+      aria-labelledby="bulk-modal-title"
+    >
       <div class="modal-content">
-        <h3>Køb Billetter</h3>
+        <h3 id="bulk-modal-title">Køb Bulk Billetter</h3>
         <label for="ticket-amount">Antal Billetter:</label>
-        <input type="number" id="ticket-amount" min="1" max="50" value="20" />
-
+        <input
+          type="number"
+          id="ticket-amount"
+          min="1"
+          max="50"
+          value="20"
+          required
+        />
         <div>
-          <label>
-            <input type="checkbox" id="include-lunch" />
-            Inkluder Frokost
+          <label for="include-lunch">
+            <input type="checkbox" id="include-lunch" /> Inkluder Frokost
           </label>
-          <label>
-            <input type="checkbox" id="include-coffee" />
-            Inkluder Kaffe
+          <label for="include-coffee">
+            <input type="checkbox" id="include-coffee" /> Inkluder Kaffe
           </label>
         </div>
-        <button id="close-modal">&times;</button>
         <button id="confirm-bulk-purchase">Køb Billetter</button>
+        <button id="close-modal">Luk</button>
       </div>
     </div>
 
@@ -260,5 +317,6 @@
     <script type="module" src="scripts/bottom-nav.js"></script>
     <script type="module" src="scripts/register.js"></script>
     <script src="scripts/ticket.js" type="module"></script>
+    <script src="scripts/header.js" type="module"></script>
   </body>
 </html>

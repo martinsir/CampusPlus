@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (ticketButton) {
     ticketButton.addEventListener("click", () => {
-      console.log("Ticket button clicked - dispatching open-ticket-modal event.");
+      console.log("Ticket button clicked - dispatching event...");
       document.dispatchEvent(new Event("open-ticket-modal"));
     });
   }

@@ -2,8 +2,9 @@ import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 import path from "path";
 
+
 // Load environment variables
-dotenv.config({ path: path.resolve("./server/.env") }); // Dynamically resolve .env location
+dotenv.config({ path: path.resolve("./server/.env") });
 
 // Function to connect to the database
 const connectToDatabase = async () => {
@@ -29,8 +30,9 @@ const connectToDatabase = async () => {
     return connection;
   } catch (error) {
     console.error("Error connecting to the database:", error.message);
-    throw error; // Throw the error to prevent further operations if DB connection fails
+    throw error;
   }
 };
 
+// Export the function as the default export
 export default connectToDatabase;

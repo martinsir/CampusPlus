@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import verifyToken from "../middleware/auth.js"; // Adjust the path based on your project
-import { connectToDatabase } from "../db.js"; // Ensure your database connection is imported
+import connectToDatabase from "../db.js";
 
 const router = express.Router();
 

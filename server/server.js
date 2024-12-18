@@ -3,7 +3,8 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-import { connectToDatabase } from "./db.js";
+import connectToDatabase from "./db.js"; // No curly braces for default export
+
 import apiRoutes from "./routes/api.js"; // API routes
 
 // Load environment variables

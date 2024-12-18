@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="css/header.css" id="header-stylesheet" disabled />
+<link rel="stylesheet" href="css/styles.css" id="main-stylesheet" />
+<link rel="stylesheet" href="css/bottom.nav.css" id="bottom-nav-stylesheet" />
+
+
+<div id="bulk-order-section" style="display: none">
+  <h2>Teacher Dashboard</h2>
+  <p>Welcome, Teacher! Manage bulk ticket orders for your class.</p>
+  <form id="bulk-order-form">
+    <label for="ticket-amount">Number of Tickets:</label>
+    <input
+      type="number"
+      id="ticket-amount"
+      name="ticket-amount"
+      min="1"
+      max="50"
+      value="10"
+      required
+    />
+
+    <div>
+      <label>
+        <input type="checkbox" id="include-lunch" name="include-lunch" />
+        Include Lunch
+      </label>
+      <label>
+        <input type="checkbox" id="include-coffee" name="include-coffee" />
+        Include Coffee
+      </label>
+    </div>
+
+    <button type="submit" id="confirm-bulk-order">Place Bulk Order</button>
+  </form>
+</div>
+<div id="create-group-section">
+  <h3>Create a New Group</h3>
+
+  <label for="class-id">Class ID:</label>
+  <select id="class-id">
+    <!-- Populate dynamically with available classes -->
+    <option value="1">Mathematics 1A</option>
+  </select>
+
+  <label for="group-name">Group Name:</label>
+  <input type="text" id="group-name" placeholder="Enter group name" required />
+
+  <h4>Select Students:</h4>
+  <div id="student-list">
+    <!-- Populate dynamically with students -->
+    <label
+      ><input type="checkbox" class="student-checkbox" value="1" /> Alice</label
+    >
+    <label
+      ><input type="checkbox" class="student-checkbox" value="2" /> Bob</label
+    >
+    <label
+      ><input type="checkbox" class="student-checkbox" value="3" /> Carol</label
+    >
+  </div>
+
+  <button id="create-group-btn">Create Group</button>
+</div>
+<!-- Map Button in Navigation -->
+<a href="#" id="map-button" class="nav-item">
+  <img src="assets/images/bot-map.png" alt="Kort" />
+</a>
+
+<!-- Map Modal -->
+<div id="map-modal" style="display: none">
+  <div class="modal-content">
+    <h3>Campus+ Kort</h3>
+    <img
+      id="map-image"
+      src="assets/images/campusplus-standoversigt2024.webp"
+      alt="Campus Kort"
+      style="max-width: 100%; height: auto; transform-origin: center center"
+    />
+    <button id="close-map-modal">Luk</button>
+  </div>
+</div>

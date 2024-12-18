@@ -1,0 +1,31 @@
+<form id="login-form">
+  <h2>Log ind</h2>
+  <input
+    type="text"
+    id="brugernavn"
+    name="brugernavn"
+    placeholder="Brugernavn"
+    required
+  />
+  <input
+    type="password"
+    id="kodeord"
+    name="kodeord"
+    placeholder="Kodeord"
+    required
+  />
+  <div class="forgot-password">
+    <a href="#forgot-password">Glemt kodeord?</a>
+  </div>
+  <button id="login-button" type="submit" disabled>Login</button>
+  <div class="alternative-login">
+    <button id="unilogin-button" type="button">Login med Unilogin</button>
+  </div>
+  <div class="register">
+    <p>Ny bruger?</p>
+    <a href="#" id="register-link">Registrer her</a>
+  </div>
+</form>
+<div class="guest">
+  <button id="guest-button" type="button">Fortsæt som gæst</button>
+</div>

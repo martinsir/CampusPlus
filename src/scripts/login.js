@@ -1,32 +1,47 @@
+import { apiRequest } from "./utils/api.js";
+import { saveToken } from "./utils/auth.js";
+import { showMainContent, loadTemplate } from "./utils/ui.js";
+
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM fully loaded and parsed.");
+  console.log("Login script initialized");
 
   // DOM Elements
   const loginForm = document.getElementById("login-form");
   const loginButton = document.getElementById("login-button");
   const usernameInput = document.getElementById("brugernavn");
   const passwordInput = document.getElementById("kodeord");
+  const guestButton = document.getElementById("guest-button");
+
+  // Validate required elements
+  if (
+    !loginForm ||
+    !loginButton ||
+    !usernameInput ||
+    !passwordInput ||
+    !guestButton
+  ) {
+    console.error("Login elements not found in DOM");
+    return;
+  }
 
   /**
-   * Enables or disables the login button based on input validation.
+   * Form Validation Logic
    */
   const validateLoginForm = () => {
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
-
-    // Enable the login button if both fields have values
     loginButton.disabled = username === "" || password === "";
+    console.log(
+      `Login form validation: ${loginButton.disabled ? "Invalid" : "Valid"}`
+    );
   };
 
-  // Attach input event listeners for real-time validation
   usernameInput.addEventListener("input", validateLoginForm);
   passwordInput.addEventListener("input", validateLoginForm);
-
-  // Validate the login form on page load
-  validateLoginForm();
+  validateLoginForm(); // Initial validation
 
   /**
-   * Handles login form submission.
+   * Login Form Submission Handler
    */
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -44,35 +59,21 @@ document.addEventListener("DOMContentLoaded", () => {
     loginButton.textContent = "Loading...";
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        if (response.status === 401 || response.status === 403) {
-          alert("Invalid credentials or session expired. Please log in again.");
-          localStorage.removeItem("token");
-          localStorage.removeItem("role");
+      const result = await apiRequest(
+        `${import.meta.env.VITE_API_URL}/login`,
+        "POST",
+        {
+          username,
+          password,
         }
-        console.error("Login failed:", errorResponse.error || "Unknown error");
-        throw new Error(errorResponse.error || "Login failed");
-      }
-
-      const result = await response.json();
+      );
       console.log("Login successful:", result);
 
-      localStorage.setItem("token", result.token);
+      // Save token and role
+      saveToken(result.token);
       localStorage.setItem("role", result.role);
 
-      // Redirect or load the main content
-      if (result.role === "admin") {
-        window.location.href = "/admin-dashboard";
-      } else {
-        showMainContent();
-      }
+      loadRoleSpecificContent(result.role); // Load role-specific content
     } catch (error) {
       console.error("Error during login:", error.message);
       alert(`Login failed: ${error.message}`);
@@ -82,123 +83,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Guest button logic
-  document
-    .getElementById("guest-button")
-    .addEventListener("click", function () {
-      // Set the role to guest (optional tracking)
-      sessionStorage.setItem("userRole", "guest");
-
-      // Call the existing showMainContent function
-      showMainContent();
-    });
+  /**
+   * Guest Login Logic
+   */
+  guestButton.addEventListener("click", () => {
+    console.log("Guest login triggered");
+    sessionStorage.setItem("userRole", "guest");
+    loadRoleSpecificContent("Guest");
+  });
 
   /**
-   * Displays the main content and hides the login page after login.
+   * Load role-specific content by template or direct DOM updates.
    */
-  const showMainContent = () => {
-    console.log("Showing main content...");
+  const loadRoleSpecificContent = async (role) => {
+    console.log(`Loading content for role: ${role}`);
 
-    // Variables
-    const loginPage = document.getElementById("login-page");
-    const loginForm = document.getElementById("login-form");
-    const guestButton = document.getElementById("guest-button");
-    const videoContainer = document.querySelector(".video-container");
-    const contentContainer = document.querySelector(".content-container");
-    const contentBoxes = document.querySelectorAll('[class^="content-box"]');
-    const bottomNav = document.querySelector(".bottom-nav");
-    const mainContent = document.getElementById("content");
+    try {
+      switch (role) {
+        case "Teacher":
+          await loadTemplate("templates/teacher-section.html", "app");
+          console.log("Teacher-specific content loaded.");
+          break;
+        case "Student":
+          await loadTemplate("templates/student-section.html", "app");
+          console.log("Student-specific content loaded.");
+          break;
+        case "Guest":
+          await loadTemplate("templates/guest-section.html", "app");
+          console.log("Guest-specific content loaded.");
+          break;
+        default:
+          console.error("Unknown role:", role);
+          return;
+      }
 
-    const loginStylesheet = document.getElementById("login-stylesheet");
-    const mainStylesheet = document.getElementById("main-stylesheet");
-    const bottomNavStylesheet = document.getElementById(
-      "bottom-nav-stylesheet"
-    );
-    const headerContainer = document.getElementById("header-container");
-    const mobileNav = document.getElementById("mobile-nav");
-
-    // 1. Hide the login page and login form
-    if (loginPage) {
-      loginPage.style.display = "none";
-      console.log("Login page hidden.");
+      // Show the main content for all roles
+      showMainContent();
+    } catch (error) {
+      console.error(`Failed to load content for role ${role}:`, error.message);
     }
-    if (loginForm) {
-      loginForm.style.display = "none";
-      console.log("Login form hidden.");
-    }
-
-    // 2. Hide the "Fortsæt som gæst" button
-    if (guestButton) {
-      guestButton.style.display = "none";
-      console.log('"Fortsæt som gæst" button hidden.');
-    }
-
-    // 3. Show the video container
-    if (videoContainer) {
-      videoContainer.style.display = ""; // Restore CSS default
-      console.log("Video container shown.");
-    }
-
-    // 4. Show the content container
-    if (contentContainer) {
-      contentContainer.style.display = ""; // Restore CSS default
-      console.log("Content container shown.");
-    }
-
-    // 5. Show all content boxes
-    if (contentBoxes.length > 0) {
-      contentBoxes.forEach((box) => {
-        box.style.display = ""; // Restore CSS default
-        console.log(`Content box "${box.className}" shown.`);
-      });
-    } else {
-      console.warn("No content boxes found.");
-    }
-
-    // 6. Show the #content (Main Content)
-    if (mainContent) {
-      mainContent.style.display = ""; // Restore CSS default
-      console.log("Main content section shown.");
-    } else {
-      console.warn("#content not found.");
-    }
-
-    // 7. Show the bottom navigation
-    if (bottomNav) {
-      bottomNav.style.display = ""; // Restore CSS default
-      console.log("Bottom navigation shown.");
-    }
-
-    // 8. Enable the correct stylesheets
-    if (loginStylesheet) {
-      loginStylesheet.disabled = true; // Disable login stylesheet
-      console.log("Login stylesheet disabled.");
-    }
-    if (mainStylesheet) {
-      mainStylesheet.disabled = false; // Enable main stylesheet
-      console.log("Main stylesheet enabled.");
-    }
-    if (bottomNavStylesheet) {
-      bottomNavStylesheet.disabled = false; // Enable bottom nav stylesheet
-      console.log("Bottom navigation stylesheet enabled.");
-    }
-    // Enable header.css
-    const headerStylesheet = document.getElementById("header-stylesheet");
-    if (headerStylesheet) {
-      headerStylesheet.disabled = false; // Enable the header styles
-      console.log("Header stylesheet enabled.");
-    }
-
-    if (headerContainer) {
-      headerContainer.style.display = "flex"; // Show the header
-      console.log("Header displayed.");
-    }
-    if (mobileNav) {
-      mobileNav.style.display = "block"; // Show the navigation
-      console.log("Mobile navigation displayed.");
-    }
-
-    // Dispatch event to show the header
-    document.dispatchEvent(new Event("show-header"));
   };
 });

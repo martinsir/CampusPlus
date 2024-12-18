@@ -4,49 +4,66 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
   const loginPage = document.getElementById("login-page");
 
-  // Function to initialize the header
+  /**
+   * Renders the header HTML.
+   */
+  const renderHeader = () => `
+    <header class="roshni-header">
+      <button class="hamburger" id="menu-button">
+        <div class="bar"></div>
+      </button>
+    </header>
+  `;
+
+  /**
+   * Initializes the header and its functionality.
+   */
   const loadHeader = () => {
-    if (headerContainer) {
-      headerContainer.innerHTML = `
-          <header class="roshni-header">
-           
-            <button class="hamburger" id="menu-button">
-              <div class="bar"></div>
+    if (!headerContainer) {
+      console.error("Header container not found");
+      return;
+    }
 
-            </button>
-          </header>
-        `;
-      headerContainer.style.display = "flex"; // Show the header
-      console.log("Header loaded and displayed.");
+    headerContainer.innerHTML = renderHeader(); // Render header
+    headerContainer.style.display = "flex"; // Show the header
+    console.log("Header loaded and displayed.");
 
-      // Initialize hamburger functionality
-      const menuButton = document.getElementById("menu-button");
-      const mobileNav = document.getElementById("mobile-nav");
+    // Hamburger menu functionality
+    const menuButton = document.getElementById("menu-button");
+    const mobileNav = document.getElementById("mobile-nav");
 
-      if (menuButton && mobileNav) {
-        menuButton.addEventListener("click", () => {
-          mobileNav.classList.toggle("is-active");
-          console.log("Mobile navigation toggled.");
-        });
-      }
+    if (menuButton && mobileNav) {
+      menuButton.addEventListener("click", () => {
+        mobileNav.classList.toggle("is-active");
+        console.log("Mobile navigation toggled.");
+      });
+    } else {
+      console.warn("Menu button or mobile navigation not found.");
     }
   };
 
-  // Show the header when "Fortsæt som gæst" is clicked
+  /**
+   * Shows the header after guest login or successful login.
+   */
+  const showHeader = () => {
+    loadHeader(); // Load the header
+    if (loginPage) loginPage.style.display = "none"; // Hide the login page
+  };
+
+  // Show header when "Fortsæt som gæst" is clicked
   if (guestButton) {
     guestButton.addEventListener("click", () => {
-      loadHeader(); // Load the header
-      loginPage.style.display = "none"; // Hide the login page
+      console.log("Guest login triggered. Showing header...");
+      showHeader();
     });
   }
 
-  // Show the header after successful login
+  // Show header after successful login
   if (loginForm) {
     loginForm.addEventListener("submit", (event) => {
-      event.preventDefault(); // Prevent form submission for this example
+      event.preventDefault(); // Prevent default form submission for this example
       console.log("Login successful. Showing header...");
-      loadHeader(); // Load the header
-      loginPage.style.display = "none"; // Hide the login page
+      showHeader();
     });
   }
 });

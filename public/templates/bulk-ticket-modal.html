@@ -1,0 +1,29 @@
+<div
+  id="bulk-ticket-modal"
+  class="modal hidden"
+  role="dialog"
+  aria-labelledby="bulk-modal-title"
+>
+  <div class="modal-content">
+    <h3 id="bulk-modal-title">Køb Bulk Billetter</h3>
+    <label for="ticket-amount">Antal Billetter:</label>
+    <input
+      type="number"
+      id="ticket-amount"
+      min="1"
+      max="50"
+      value="20"
+      required
+    />
+    <div>
+      <label for="include-lunch">
+        <input type="checkbox" id="include-lunch" /> Inkluder Frokost
+      </label>
+      <label for="include-coffee">
+        <input type="checkbox" id="include-coffee" /> Inkluder Kaffe
+      </label>
+    </div>
+    <button id="confirm-bulk-purchase">Køb Billetter</button>
+    <button id="close-modal">Luk</button>
+  </div>
+</div>

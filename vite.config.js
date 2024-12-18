@@ -5,7 +5,9 @@ dotenv.config(); // Load environment variables
 
 export default defineConfig({
   root: "src", // Root directory
+  publicDir: "public",
   build: {
+    assetsInlineLimit: 0,
     outDir: "../dist",
     emptyOutDir: true,
   },

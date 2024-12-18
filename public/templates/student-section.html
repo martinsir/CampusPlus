@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="css/header.css" id="header-stylesheet" disabled />
+<link rel="stylesheet" href="css/styles.css" id="main-stylesheet" />
+<link rel="stylesheet" href="css/bottom.nav.css" id="bottom-nav-stylesheet" />
+
+<div id="single-order-section" style="display: none">
+  <h2>Student Dashboard</h2>
+  <p>Welcome, Student! Order your ticket or claim one from your teacher.</p>
+  <form id="single-ticket-form">
+    <button type="submit" id="order-single-ticket">Order a Ticket</button>
+  </form>
+</div>
+
+<div id="claim-ticket-section" style="display: none">
+  <h3>Claim Ticket</h3>
+  <form id="claim-ticket-form">
+    <label for="invite-code">Invitation Code:</label>
+    <input
+      type="text"
+      id="invite-code"
+      name="invite-code"
+      placeholder="Enter Invitation Code"
+      required
+    />
+    <button type="submit" id="claim-ticket-button">Claim Ticket</button>
+  </form>
+</div>
+
+<div id="feedback-section">
+  <h3>Submit Feedback</h3>
+  <textarea
+    id="feedback-text"
+    placeholder="Write your feedback here..."
+    required
+  ></textarea>
+  <select id="feedback-rating" required>
+    <option value="" disabled selected>Select a rating</option>
+    <option value="1">1 - Poor</option>
+    <option value="2">2 - Fair</option>
+    <option value="3">3 - Good</option>
+    <option value="4">4 - Very Good</option>
+    <option value="5">5 - Excellent</option>
+  </select>
+  <button id="submit-feedback">Submit Feedback</button>
+</div>
+<!-- Map Button in Navigation -->
+<a href="#" id="map-button" class="nav-item">
+  <img src="assets/images/bot-map.png" alt="Kort" />
+</a>
+
+<!-- Map Modal -->
+<div id="map-modal" style="display: none">
+  <div class="modal-content">
+    <h3>Campus+ Kort</h3>
+    <img
+      id="map-image"
+      src="assets/images/campusplus-standoversigt2024.webp"
+      alt="Campus Kort"
+      style="max-width: 100%; height: auto; transform-origin: center center"
+    />
+    <button id="close-map-modal">Luk</button>
+  </div>
+</div>

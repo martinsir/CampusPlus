@@ -5,10 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "serve": "vite preview",
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,6 @@
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
-    "env": "^0.0.2",
     "express": "^4.21.2",
     "gsap": "^3.12.5",
     "jsonwebtoken": "^9.0.2",

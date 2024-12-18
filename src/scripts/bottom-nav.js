@@ -1,45 +1,71 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Ticket Button Logic (Existing)
+  console.log("Bottom navigation initialized.");
+
+  // DOM Elements
   const ticketButton = document.getElementById("ticket-button");
+  const mapButton = document.getElementById("map-button");
+  const mapModal = document.getElementById("map-modal");
+  const closeMapButton = document.getElementById("close-map-modal");
 
-  if (ticketButton) {
-    ticketButton.addEventListener("click", () => {
-      console.log("Ticket button clicked - dispatching event...");
-      document.dispatchEvent(new Event("open-ticket-modal"));
-    });
-  }
-
-  // Map Button Logic
-  const mapButton = document.getElementById("map-button"); // Map button
-  const mapModal = document.getElementById("map-modal"); // Map modal container
-  const closeMapButton = document.getElementById("close-map-modal"); // Close button
-
-  // Function to show the map modal
+  /**
+   * Shows the map modal.
+   */
   const openMapModal = () => {
-    mapModal.style.display = "flex"; // Use flex for centering
+    if (mapModal) {
+      mapModal.style.display = "flex"; // Use flex for centering
+      console.log("Map modal opened.");
+    } else {
+      console.warn("Map modal not found.");
+    }
   };
 
-  // Event Listeners
+  /**
+   * Hides the map modal.
+   */
+  const closeMapModal = () => {
+    if (mapModal) {
+      mapModal.style.display = "none";
+      console.log("Map modal closed.");
+    } else {
+      console.warn("Map modal not found.");
+    }
+  };
+
+  // Attach event listener for the ticket button
+  if (ticketButton) {
+    ticketButton.addEventListener("click", () => {
+      console.log(
+        "Ticket button clicked - dispatching 'open-ticket-modal' event."
+      );
+      document.dispatchEvent(new Event("open-ticket-modal"));
+    });
+  } else {
+    console.warn("Ticket button not found.");
+  }
+
+  // Attach event listener for the map button
   if (mapButton) {
     mapButton.addEventListener("click", (e) => {
       e.preventDefault();
       openMapModal();
     });
+  } else {
+    console.warn("Map button not found.");
   }
 
-  // Function to hide the map modal
-  const closeMapModal = () => {
-    mapModal.style.display = "none";
-  };
-
+  // Attach event listener for the close button in the map modal
   if (closeMapButton) {
     closeMapButton.addEventListener("click", closeMapModal);
+  } else {
+    console.warn("Close map button not found.");
   }
 
-  // Optional: Close modal when clicking outside the modal content
-  window.addEventListener("click", (e) => {
-    if (e.target === mapModal) {
-      closeMapModal();
-    }
-  });
+  // Close modal when clicking outside the modal content
+  if (mapModal) {
+    window.addEventListener("click", (e) => {
+      if (e.target === mapModal) {
+        closeMapModal();
+      }
+    });
+  }
 });

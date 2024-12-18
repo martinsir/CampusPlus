@@ -1,0 +1,49 @@
+<form id="register-form">
+  <h2>Opret Bruger</h2>
+  <input
+    type="text"
+    id="register-brugernavn"
+    name="brugernavn"
+    placeholder="Brugernavn"
+    required
+  />
+  <input
+    type="email"
+    id="register-email"
+    name="email"
+    placeholder="Email"
+    required
+  />
+  <input
+    type="password"
+    id="register-kodeord"
+    name="kodeord"
+    placeholder="Kodeord"
+    required
+  />
+  <input
+    type="password"
+    id="register-bekræft-kodeord"
+    name="bekræft-kodeord"
+    placeholder="Bekræft kodeord"
+    required
+  />
+  <input
+    type="tel"
+    id="register-phone"
+    name="phone"
+    placeholder="Telefonnummer"
+  />
+  <select id="register-role" name="role" required>
+    <option value="Student">Studerende</option>
+    <option value="Teacher">Lærer</option>
+    <option value="Leader">Leder</option>
+  </select>
+  <select id="register-school" name="schoolId" required>
+    <option value="1">Zealand Business School</option>
+  </select>
+  <button id="register-button" type="submit">Registrer</button>
+  <div class="back-to-login">
+    <a href="#" id="back-to-login">Tilbage til Login</a>
+  </div>
+</form>

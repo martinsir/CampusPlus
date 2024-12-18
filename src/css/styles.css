@@ -35,7 +35,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-image: url("../assets/images/Schneider\ Foto\ -\ Campus\ +\ dagen-2.jpg"); /* Path relative to the CSS file */
+  background-image: url("../../public/images/SchneiderFoto-Campus+dagen-2.jpg"); /* Path relative to the CSS file */
   background-color: #000000;
   background-size: cover; /* Makes the image cover the entire viewport */
   background-repeat: no-repeat; /* Prevents tiling */
@@ -132,7 +132,7 @@ body {
 .content-box2 {
   height: 200px;
   background-color: transparent;
-  background-image: url("../assets/images/Marcus\ Eckhoff\ -\ Campus+-30.jpg");
+  background-image: url("../../public/images/MarcusEckhoff-Campus+-30.jpg");
   background-size: cover;
   background-position: center;
   display: flex; /* Ensure Flexbox applies specifically */
@@ -142,7 +142,7 @@ body {
 
 .content-box3 {
   height: 200px;
-  background-image: url("../assets/images/Schneider\ Foto\ -\ Campus\ +\ dagen-24.jpg");
+  background-image: url("../../public/images/SchneiderFoto-Campus+dagen-24.jpg");
   background-size: cover;
   background-position: center;
   display: flex; /* Ensure Flexbox applies specifically */
@@ -153,7 +153,7 @@ body {
 /* Repeat for other boxes */
 .content-box4 {
   height: 200px;
-  background-image: url("../assets/images/05092023-campus+dagen-119.jpg");
+  background-image: url("../../public/images/05092023-campus+dagen-119.jpg");
   background-size: cover;
   background-position: center;
   display: flex; /* Ensure Flexbox applies specifically */
@@ -163,7 +163,7 @@ body {
 
 .content-box5 {
   height: 200px;
-  background-image: url("../assets/images/Marcus\ Eckhoff\ -\ Campus+-49.jpg");
+  background-image: url("../../public/images/MarcusEckhoff-Campus+-49.jpg");
   background-size: cover;
   background-position: center;
   display: flex; /* Ensure Flexbox applies specifically */

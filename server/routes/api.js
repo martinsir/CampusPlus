@@ -1,149 +1,207 @@
-import express from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import connectToDatabase from '../db.js';
+import express from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import verifyToken from "../middleware/auth.js"; // Adjust the path based on your project
+import { connectToDatabase } from "../db.js"; // Ensure your database connection is imported
 
 const router = express.Router();
 
-// Middleware: Verify Token
-const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1]; // Bearer token
-    if (!token) {
-        return res.status(401).json({ error: 'No token provided' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // Attach decoded data to request
-        next();
-    } catch (error) {
-        console.error('[ERROR] Token verification failed:', error.message);
-        res.status(403).json({ error: 'Invalid or expired token' });
-    }
+// Utility: Standardized error response
+const sendErrorResponse = (res, status, message) => {
+  console.error(`[ERROR] ${message}`);
+  res.status(status).json({ error: message });
 };
 
-// Register Route
-router.post('/register', async (req, res) => {
-    const { name, email, password, role, phoneNumber, schoolId } = req.body;
+// ====== ROUTES ====== //
 
-    console.log('Incoming registration data:', req.body);
-
-    if (!name || !email || !password || !role) {
-        return res.status(400).json({ error: 'Name, email, password, and role are required' });
-    }
-
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(password)) {
-        return res.status(400).json({
-            error: 'Password must be at least 8 characters, include one uppercase letter, one number, and one special character.',
-        });
-    }
-
-    try {
-        const db = await connectToDatabase();
-        console.log('[DEBUG] Connected to the database.');
-
-        const [existingUser] = await db.query('SELECT * FROM Users WHERE Email = ?;', [email]);
-        if (existingUser.length > 0) {
-            return res.status(400).json({ error: 'Email is already registered' });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const [result] = await db.query(
-            'INSERT INTO Users (Name, Email, Password, Role, PhoneNumber, SchoolID) VALUES (?, ?, ?, ?, ?, ?);',
-            [name, email, hashedPassword, role, phoneNumber || null, schoolId || null]
-        );
-
-        console.log('[DEBUG] User successfully registered:', result.insertId);
-
-        const token = jwt.sign(
-            { id: result.insertId, role },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' }
-        );
-
-        res.status(201).json({
-            message: 'User registered successfully',
-            userId: result.insertId,
-            token,
-        });
-    } catch (error) {
-        console.error('[ERROR] Registration failed:', error.message || error);
-        res.status(500).json({ error: 'Server error during registration' });
-    }
+// Health Check Route
+router.get("/", (req, res) => {
+  res.json({ message: "API is working!" });
 });
 
-// Login Route
-router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+// ====== REGISTER ROUTE ======
+router.post("/register", async (req, res) => {
+  const { name, email, password, role, phoneNumber, schoolId } = req.body;
 
-    console.log('[DEBUG] Incoming login data:', req.body);
+  console.log("[DEBUG] Incoming registration data:", req.body);
 
-    if (!username || !password) {
-        return res.status(400).json({ error: 'Username and password are required' });
+  if (!name || !email || !password || !role) {
+    return sendErrorResponse(
+      res,
+      400,
+      "Missing required fields: name, email, password, role"
+    );
+  }
+
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  if (!passwordRegex.test(password)) {
+    return sendErrorResponse(
+      res,
+      400,
+      "Password must be at least 8 characters long, include one uppercase letter, one number, and one special character."
+    );
+  }
+
+  try {
+    const db = await connectToDatabase();
+    console.log("[DEBUG] Connected to the database.");
+
+    // Check if the email is already registered
+    const [existingUser] = await db.query(
+      "SELECT * FROM Users WHERE Email = ?;",
+      [email]
+    );
+    if (existingUser.length > 0) {
+      return sendErrorResponse(res, 400, "Email is already registered");
     }
 
-    try {
-        const db = await connectToDatabase();
-        console.log('[DEBUG] Connected to the database.');
+    // Hash the password and insert the new user
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const [result] = await db.query(
+      "INSERT INTO Users (Name, Email, Password, Role, PhoneNumber, SchoolID) VALUES (?, ?, ?, ?, ?, ?);",
+      [name, email, hashedPassword, role, phoneNumber || null, schoolId || null]
+    );
 
-        const [userResult] = await db.query('SELECT * FROM Users WHERE Name = ?;', [username]);
-        if (userResult.length === 0) {
-            return res.status(401).json({ error: 'Invalid username or password' });
-        }
+    console.log("[DEBUG] User successfully registered:", result.insertId);
 
-        const user = userResult[0];
+    // Generate JWT Token
+    const token = jwt.sign(
+      { id: result.insertId, role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
-        const isPasswordValid = await bcrypt.compare(password, user.Password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid username or password' });
-        }
-
-        const token = jwt.sign(
-            { id: user.ID, role: user.Role },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' }
-        );
-
-        res.status(200).json({
-            message: 'Login successful',
-            userId: user.ID,
-            role: user.Role,
-            token,
-        });
-    } catch (error) {
-        console.error('[ERROR] Login failed:', error.message || error);
-        res.status(500).json({ error: 'Server error during login' });
-    }
+    res.status(201).json({
+      message: "User registered successfully",
+      userId: result.insertId,
+      token,
+    });
+  } catch (error) {
+    sendErrorResponse(res, 500, "Server error during registration");
+  }
 });
 
-// Protected Route: Get User Profile
-router.get('/profile', verifyToken, async (req, res) => {
-    try {
-        const db = await connectToDatabase();
-        console.log('[DEBUG] Fetching profile for user ID:', req.user.id);
+// =========== group route=======
+router.post("/groups", verifyToken, async (req, res) => {
+  const { classId, groupName, students } = req.body;
 
-        const [userResult] = await db.query('SELECT * FROM Users WHERE UserID = ?;', [req.user.id]);
+  if (req.user.role !== "Student") {
+    return res.status(403).json({ error: "Only students can create groups." });
+  }
 
-        if (userResult.length === 0) {
-            return res.status(404).json({ error: 'User not found' });
-        }
+  if (!classId || !groupName || !students || students.length !== 5) {
+    return res.status(400).json({
+      error: "Class ID, group name, and exactly 5 students are required.",
+    });
+  }
 
-        const user = userResult[0];
-        res.status(200).json({
-            id: user.UserID,
-            name: user.Name,
-            email: user.Email,
-            role: user.Role,
-            phoneNumber: user.PhoneNumber,
-        });
-    } catch (error) {
-        console.error('[ERROR] Fetching user profile failed:', error.message || error);
-        res.status(500).json({ error: 'Server error fetching user profile' });
-    }
+  try {
+    const db = await connectToDatabase();
+
+    // Insert group into Groups table
+    const [groupResult] = await db.query(
+      "INSERT INTO Groups (ClassID, GroupName) VALUES (?, ?);",
+      [classId, groupName]
+    );
+
+    const groupId = groupResult.insertId;
+
+    // Add students to the group
+    const studentInserts = students.map((studentId) =>
+      db.query(
+        "INSERT INTO StudentGroups (GroupID, StudentID) VALUES (?, ?);",
+        [groupId, studentId]
+      )
+    );
+
+    await Promise.all(studentInserts);
+
+    res.status(201).json({
+      message: "Group created successfully.",
+      groupId,
+    });
+  } catch (error) {
+    console.error("[ERROR] Creating group failed:", error.message || error);
+    res.status(500).json({ error: "Server error creating group." });
+  }
 });
 
+// ====== LOGIN ROUTE ======
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
 
+  console.log("[DEBUG] Incoming login data:", req.body);
+
+  if (!username || !password) {
+    return sendErrorResponse(res, 400, "Username and password are required");
+  }
+
+  try {
+    const db = await connectToDatabase();
+    console.log("[DEBUG] Connected to the database.");
+
+    const [userResult] = await db.query("SELECT * FROM Users WHERE Name = ?;", [
+      username,
+    ]);
+    if (userResult.length === 0) {
+      return sendErrorResponse(res, 401, "Invalid username or password");
+    }
+
+    const user = userResult[0];
+
+    const isPasswordValid = await bcrypt.compare(password, user.Password);
+    if (!isPasswordValid) {
+      return sendErrorResponse(res, 401, "Invalid username or password");
+    }
+
+    const token = jwt.sign(
+      { id: user.UserID, role: user.Role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({
+      message: "Login successful",
+      userId: user.UserID,
+      role: user.Role,
+      token,
+    });
+  } catch (error) {
+    sendErrorResponse(res, 500, "Server error during login");
+  }
+});
+
+// ====== PROFILE ROUTE ======
+router.get("/profile", verifyToken, async (req, res) => {
+  try {
+    const db = await connectToDatabase();
+    console.log("[DEBUG] Fetching profile for user ID:", req.user.id);
+
+    const [userResult] = await db.query(
+      "SELECT * FROM Users WHERE UserID = ?;",
+      [req.user.id]
+    );
+    if (userResult.length === 0) {
+      return sendErrorResponse(res, 404, "User not found");
+    }
+
+    const user = userResult[0];
+    res.status(200).json({
+      id: user.UserID,
+      name: user.Name,
+      email: user.Email,
+      role: user.Role,
+      phoneNumber: user.PhoneNumber,
+    });
+  } catch (error) {
+    sendErrorResponse(res, 500, "Server error fetching user profile");
+  }
+});
+
+// ====== HANDLE INVALID ROUTES ======
+router.use((req, res) => {
+  sendErrorResponse(res, 404, "Endpoint not found");
+});
 
 export default router;

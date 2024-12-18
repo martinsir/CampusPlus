@@ -3,23 +3,25 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { connectToDatabase } from "./db.js";
 import apiRoutes from "./routes/api.js"; // API routes
 
 // Load environment variables
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, "./.env") });
-
+if (process.env.NODE_ENV === "production") {
+  dotenv.config({ path: path.join(__dirname, "./.env.production") });
+} else {
+  dotenv.config({ path: path.join(__dirname, "./.env") });
+}
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 // Middleware
 app.use(express.json());
-
 // CORS: Allow development and production domains
 const allowedOrigins = [
   "http://localhost:5173", // Development
-  "http://two.itloesninger.dk", // Production
+  "http://three.itloesninger.dk", // Production
 ];
 app.use(
   cors({
@@ -32,6 +34,17 @@ app.use(
     },
   })
 );
+
+// Example database initialization
+(async () => {
+  try {
+    await connectToDatabase();
+    console.log("Database connected!");
+  } catch (err) {
+    console.error("Database connection failed:", err.message);
+    process.exit(1); // Exit process if DB connection fails
+  }
+})();
 
 // Debug Middleware (Optional for production)
 app.use((req, res, next) => {
